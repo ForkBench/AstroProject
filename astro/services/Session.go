@@ -32,3 +32,30 @@ func (s *Session) RemoveCompetition(competitionID uint8) {
 func (s *Session) GetCompetitions() []Competition {
 	return s.Competitions
 }
+
+func (s *Session) GetCompetition(competitionID uint8) Competition {
+	for _, competition := range s.Competitions {
+		if competition.CompetitionID == competitionID {
+			return competition
+		}
+	}
+	return Competition{}
+}
+
+func (s *Session) AddPlayerToCompetition(competitionID uint8, player Player) bool {
+	competition := s.GetCompetition(competitionID)
+	if competition.CompetitionName == "" {
+		return false
+	}
+
+	return competition.AddPlayer(player)
+}
+
+func (s *Session) RemovePlayerFromCompetition(competitionID uint8, player Player) bool {
+	competition := s.GetCompetition(competitionID)
+	if competition.CompetitionName == "" {
+		return false
+	}
+
+	return competition.RemovePlayer(player)
+}

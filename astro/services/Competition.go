@@ -14,7 +14,7 @@ type Competition struct {
 	CompetitionPlayers        []Player
 }
 
-func (c Competition) String() string {
+func (c *Competition) String() string {
 	return "Competition : " + c.CompetitionName + " - " + c.CompetitionCategory.String() + " - " + c.CompetitionWeapon.String() + " - " + c.CompetitionState.String()
 }
 
@@ -27,12 +27,13 @@ func CreateCompetition(competitionID uint8, competitionName string, competitionC
 	c.CompetitionWeapon = competitionWeapon
 	c.CompetitionState = REGISTERING
 	c.CompetitionMaxStageNumber = competitionMaxStageNumber
-	c.CompetitionStages = make([]Stage, competitionMaxStageNumber)
+	c.CompetitionStages = []Stage{}
+	c.CompetitionPlayers = []Player{}
 
 	return c
 }
 
-func (c Competition) AddStage(stage Stage) bool {
+func (c *Competition) AddStage(stage Stage) bool {
 	if c.CompetitionState != IDLE {
 		return false
 	}
@@ -46,7 +47,7 @@ func (c Competition) AddStage(stage Stage) bool {
 	return true
 }
 
-func (c Competition) StagePosition(stage Stage) uint16 {
+func (c *Competition) StagePosition(stage Stage) uint16 {
 	for i, competitionStage := range c.CompetitionStages {
 		if competitionStage == stage {
 			return uint16(i)
@@ -56,7 +57,7 @@ func (c Competition) StagePosition(stage Stage) uint16 {
 	return math.MaxInt16
 }
 
-func (c Competition) RemoveStage(stage Stage) bool {
+func (c *Competition) RemoveStage(stage Stage) bool {
 	if c.CompetitionState != IDLE {
 		return false
 	}
@@ -70,7 +71,7 @@ func (c Competition) RemoveStage(stage Stage) bool {
 	return true
 }
 
-func (c Competition) StartCompetition() bool {
+func (c *Competition) StartCompetition() bool {
 	if c.CompetitionState != REGISTERING {
 		return false
 	}
@@ -80,7 +81,7 @@ func (c Competition) StartCompetition() bool {
 	return true
 }
 
-func (c Competition) FinishCompetition() bool {
+func (c *Competition) FinishCompetition() bool {
 	if c.CompetitionState != STARTED {
 		return false
 	}
@@ -92,7 +93,7 @@ func (c Competition) FinishCompetition() bool {
 	return true
 }
 
-func (c Competition) AddPlayer(player Player) bool {
+func (c *Competition) AddPlayer(player Player) bool {
 	if c.CompetitionState != REGISTERING {
 		return false
 	}
@@ -102,7 +103,7 @@ func (c Competition) AddPlayer(player Player) bool {
 	return true
 }
 
-func (c Competition) PlayerPosition(player Player) uint16 {
+func (c *Competition) PlayerPosition(player Player) uint16 {
 	for i, competitionPlayer := range c.CompetitionPlayers {
 		if competitionPlayer == player {
 			return uint16(i)
@@ -112,7 +113,7 @@ func (c Competition) PlayerPosition(player Player) uint16 {
 	return math.MaxInt16
 }
 
-func (c Competition) RemovePlayer(player Player) bool {
+func (c *Competition) RemovePlayer(player Player) bool {
 	if c.CompetitionState != REGISTERING {
 		return false
 	}
@@ -128,18 +129,10 @@ func (c Competition) RemovePlayer(player Player) bool {
 	return true
 }
 
-func (c Competition) AddPlayerToStage(player Player, stage Stage) bool {
-	if stage.AddPlayer(player) {
-		return true
-	}
-
-	return false
+func (c *Competition) AddPlayerToStage(player Player, stage Stage) bool {
+	return stage.AddPlayer(player)
 }
 
-func (c Competition) RemovePlayerFromStage(player Player, stage Stage) bool {
-	if stage.RemovePlayer(player) {
-		return true
-	}
-
-	return false
+func (c *Competition) RemovePlayerFromStage(player Player, stage Stage) bool {
+	return stage.RemovePlayer(player)
 }

@@ -44,7 +44,7 @@ func (p Pool) PlayerPosition(player Player) uint16 {
 	return math.MaxInt16
 }
 
-func (p Pool) AddPlayer(player Player) bool {
+func (p *Pool) AddPlayer(player Player) bool {
 	if p.PoolState != IDLE {
 		return false
 	}
@@ -61,7 +61,7 @@ func (p Pool) AddPlayer(player Player) bool {
 	return false
 }
 
-func (p Pool) RemovePlayer(player Player) bool {
+func (p *Pool) RemovePlayer(player Player) bool {
 	if p.PoolState != IDLE {
 		return false
 	}
@@ -76,6 +76,6 @@ func (p Pool) RemovePlayer(player Player) bool {
 	return false
 }
 
-func (p Pool) SetReferee(referee Referee) {
+func (p *Pool) SetReferee(referee Referee) {
 	p.PoolReferee = referee
 }
