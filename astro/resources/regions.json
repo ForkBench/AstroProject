@@ -1,0 +1,78 @@
+[
+  {
+    "region_name": "AUVERGNE RHONE ALPES",
+    "region_id": 0
+  },
+  {
+    "region_name": "BOURGOGNE FRANCHE COMTE",
+    "region_id": 1
+  },
+  {
+    "region_name": "BRETAGNE",
+    "region_id": 2
+  },
+  {
+    "region_name": "CENTRE VAL DE LOIRE",
+    "region_id": 3
+  },
+  {
+    "region_name": "CORSE",
+    "region_id": 4
+  },
+  {
+    "region_name": "FFE",
+    "region_id": 5
+  },
+  {
+    "region_name": "GRAND EST",
+    "region_id": 6
+  },
+  {
+    "region_name": "GUADELOUPE",
+    "region_id": 7
+  },
+  {
+    "region_name": "GUYANE",
+    "region_id": 8
+  },
+  {
+    "region_name": "HAUTS DE FRANCE",
+    "region_id": 9
+  },
+  {
+    "region_name": "ILE DE FRANCE",
+    "region_id": 10
+  },
+  {
+    "region_name": "LA REUNION",
+    "region_id": 11
+  },
+  {
+    "region_name": "MARTINIQUE",
+    "region_id": 12
+  },
+  {
+    "region_name": "NORMANDIE",
+    "region_id": 13
+  },
+  {
+    "region_name": "NOUVELLE AQUITAINE",
+    "region_id": 14
+  },
+  {
+    "region_name": "NOUVELLE CALEDONIE",
+    "region_id": 15
+  },
+  {
+    "region_name": "OCCITANIE",
+    "region_id": 16
+  },
+  {
+    "region_name": "PACA",
+    "region_id": 17
+  },
+  {
+    "region_name": "PAYS DE LA LOIRE",
+    "region_id": 18
+  }
+]
