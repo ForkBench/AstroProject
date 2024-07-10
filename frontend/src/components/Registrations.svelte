@@ -70,7 +70,10 @@
             ) ||
             player.PlayerLastname.toLowerCase().includes(
                 searchTerms.toLowerCase()
-            )
+            ) ||
+            player.PlayerClub?.club_name
+                .toLowerCase()
+                .includes(searchTerms.toLowerCase())
         );
     });
 </script>
@@ -191,7 +194,8 @@
                             }}>{player.PlayerLastname}</td
                         >
                         <td
-                            >{#if player.PlayerClub}{player.PlayerClub}{/if}</td
+                            >{#if player.PlayerClub}{player.PlayerClub}{:else}Sans
+                                Nom{/if}</td
                         >
                     </tr>
                 {/if}
@@ -243,22 +247,47 @@
     }
 
     table {
-        width: 90%;
-        border-collapse: collapse;
+        font-size: small;
+        width: 70%;
+        border-collapse: separate;
+        border-spacing: 0 20px;
     }
 
     th,
     td {
-        padding: 8px;
+        margin: 3px;
+        padding-left: 20px;
         text-align: left;
+        border-left: dashed rgba(119, 141, 169, 30%) 3px;
     }
 
-    td {
-        border-bottom: 1px solid #e9ecef;
+    tr {
+        border-radius: 20px;
     }
 
-    #add-player-tr td {
-        border: none;
+    td:first-child,
+    th:first-child {
+        border-left: none;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+    }
+
+    td:last-child,
+    th:last-child {
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #e9ecef;
+    }
+
+    tr:nth-child(odd) {
+        background-color: #dee2e6;
+    }
+
+    tr:last-child {
+        background: none;
     }
 
     th {

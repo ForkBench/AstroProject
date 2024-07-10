@@ -59,6 +59,18 @@ h1 {
     line-height: 1.1;
 }
 
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #003566;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
 @media (prefers-color-scheme: light) {
     :root {
         color: #213547;
@@ -67,10 +79,6 @@ h1 {
 
     a:hover {
         color: #747bff;
-    }
-
-    button {
-        background-color: #f9f9f9;
     }
 }
 

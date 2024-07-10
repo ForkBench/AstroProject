@@ -8,6 +8,8 @@
 
     let competitions: Competition[] = [];
 
+    let competitionID = 0;
+
     onMount(async () => {
         competitions = await Session.GetCompetitions();
     });
@@ -15,10 +17,10 @@
 
 <div class="container">
     <NavBar />
-    {#if competitions.length === 0}
+    {#if competitions.length <= competitionID}
         <p>Loading...</p>
     {:else}
-        <Registrations competition={competitions[0]} />
+        <Registrations competition={competitions[competitionID]} />
     {/if}
 </div>
 

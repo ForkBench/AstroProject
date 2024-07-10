@@ -71,18 +71,6 @@
         align-items: center;
     }
 
-    button {
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        background-color: #003566;
-        color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-    }
-
     .competition-el {
         min-width: 20vw;
         display: flex;
