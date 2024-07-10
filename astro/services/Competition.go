@@ -1,7 +1,5 @@
 package services
 
-import "math"
-
 // Competition : Competition details
 type Competition struct {
 	CompetitionID             uint8 // 255 competitions max
@@ -10,8 +8,8 @@ type Competition struct {
 	CompetitionWeapon         Weapon
 	CompetitionState          State
 	CompetitionMaxStageNumber uint8
-	CompetitionStages         []Stage
-	CompetitionPlayers        []Player
+	CompetitionStages         map[uint8]*Stage
+	CompetitionPlayers        map[uint16]*Player
 }
 
 func (c *Competition) String() string {
@@ -27,48 +25,10 @@ func CreateCompetition(competitionID uint8, competitionName string, competitionC
 	c.CompetitionWeapon = competitionWeapon
 	c.CompetitionState = REGISTERING
 	c.CompetitionMaxStageNumber = competitionMaxStageNumber
-	c.CompetitionStages = []Stage{}
-	c.CompetitionPlayers = []Player{}
+	c.CompetitionStages = map[uint8]*Stage{}
+	c.CompetitionPlayers = map[uint16]*Player{}
 
 	return c
-}
-
-func (c *Competition) AddStage(stage Stage) bool {
-	if c.CompetitionState != IDLE {
-		return false
-	}
-
-	if len(c.CompetitionStages) >= int(c.CompetitionMaxStageNumber) {
-		return false
-	}
-
-	c.CompetitionStages = append(c.CompetitionStages, stage)
-
-	return true
-}
-
-func (c *Competition) StagePosition(stage Stage) uint16 {
-	for i, competitionStage := range c.CompetitionStages {
-		if competitionStage == stage {
-			return uint16(i)
-		}
-	}
-
-	return math.MaxInt16
-}
-
-func (c *Competition) RemoveStage(stage Stage) bool {
-	if c.CompetitionState != IDLE {
-		return false
-	}
-
-	if c.StagePosition(stage) == math.MaxInt16 {
-		return false
-	}
-
-	c.CompetitionStages = append(c.CompetitionStages[:c.StagePosition(stage)], c.CompetitionStages[c.StagePosition(stage)+1:]...)
-
-	return true
 }
 
 func (c *Competition) StartCompetition() bool {
@@ -93,38 +53,26 @@ func (c *Competition) FinishCompetition() bool {
 	return true
 }
 
-func (c *Competition) AddPlayer(player Player) bool {
+func (c *Competition) AddPlayer(player *Player) bool {
 	if c.CompetitionState != REGISTERING {
 		return false
 	}
 
-	c.CompetitionPlayers = append(c.CompetitionPlayers, player)
+	c.CompetitionPlayers[player.PlayerID] = player
 
 	return true
 }
 
-func (c *Competition) PlayerPosition(player Player) uint16 {
-	for i, competitionPlayer := range c.CompetitionPlayers {
-		if competitionPlayer == player {
-			return uint16(i)
-		}
-	}
-
-	return math.MaxInt16
-}
-
-func (c *Competition) RemovePlayer(player Player) bool {
+func (c *Competition) RemovePlayer(player *Player) bool {
 	if c.CompetitionState != REGISTERING {
 		return false
 	}
 
-	pos := c.PlayerPosition(player)
-
-	if pos == math.MaxInt16 {
+	if _, ok := c.CompetitionPlayers[player.PlayerID]; !ok {
 		return false
 	}
 
-	c.CompetitionPlayers = append(c.CompetitionPlayers[:pos], c.CompetitionPlayers[pos+1:]...)
+	delete(c.CompetitionPlayers, player.PlayerID)
 
 	return true
 }
@@ -135,4 +83,15 @@ func (c *Competition) AddPlayerToStage(player Player, stage Stage) bool {
 
 func (c *Competition) RemovePlayerFromStage(player Player, stage Stage) bool {
 	return stage.RemovePlayer(player)
+}
+
+func (c *Competition) UpdatePlayer(player *Player) bool {
+	// Check if player is in competition
+	if _, ok := c.CompetitionPlayers[player.PlayerID]; !ok {
+		return false
+	}
+
+	c.CompetitionPlayers[player.PlayerID] = player
+
+	return true
 }

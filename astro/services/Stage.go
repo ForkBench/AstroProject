@@ -6,4 +6,5 @@ type Stage interface {
 	PlayerPosition(player Player) uint16
 	AddPlayer(player Player) bool
 	RemovePlayer(player Player) bool
+	GetID() uint8
 }

@@ -14,7 +14,11 @@ var assets embed.FS
 func main() {
 
 	session := services.Session{}
-	session.AddCompetition("Competition 1", "Category 1", "Weapon 1")
+	session.AddCompetition("Premier League", "U17", "Foil")
+	session.AddCompetition("Premier League", "U17", "Foil")
+	session.AddCompetition("Premier League", "U17", "Foil")
+	session.AddCompetition("Premier League", "U17", "Foil")
+	session.Competitions[0].AddPlayer(services.CreatePlayer(1, "John", "Doe"))
 
 	app := application.New(application.Options{
 		Name:        "AstroProject",
@@ -24,6 +28,7 @@ func main() {
 			application.NewService(&services.Competition{}),
 			application.NewService(&services.Club{}),
 			application.NewService(&services.Pool{}),
+			application.NewService(&services.Player{}),
 		},
 		Assets: application.AssetOptions{
 			Handler: application.AssetFileServerFS(assets),
@@ -42,7 +47,7 @@ func main() {
 		},
 		BackgroundColour: application.NewRGB(27, 38, 54),
 		URL:              "/",
-		Width:            500,
+		Width:            1080,
 		Height:           720,
 		Centered:         false,
 	})

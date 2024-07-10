@@ -1,24 +1,25 @@
 <script lang="ts">
-    import { Competition } from "../bindings/changeme/astro/services/models";
+    import { onMount } from "svelte";
+
+    import NavBar from "./components/NavBar.svelte";
+    import Registrations from "./components/Registrations.svelte";
     import * as Session from "../bindings/changeme/astro/services/session";
+    import { Competition } from "../bindings/changeme/astro/services/models";
 
     let competitions: Competition[] = [];
 
-    function getCompetitions() {
-        Session.GetCompetitions().then((data) => {
-            competitions = data;
-        });
-    }
+    onMount(async () => {
+        competitions = await Session.GetCompetitions();
+    });
 </script>
 
 <div class="container">
-    <h1>Competitions</h1>
-    <button on:click={getCompetitions}>Get</button>
-    <ul>
-        {#each competitions as competition}
-            <li>{competition.CompetitionName}</li>
-        {/each}
-    </ul>
+    <NavBar />
+    {#if competitions.length === 0}
+        <p>Loading...</p>
+    {:else}
+        <Registrations competition={competitions[0]} />
+    {/if}
 </div>
 
 <style>
