@@ -1,7 +1,6 @@
 <a name="readme-top"></a>
 
 <div align="center">
-  <!-- You are encouraged to replace this logo with your own! Otherwise you can also remove it. -->
   <img src="doc/logo.png" alt="logo" width="140"  height="auto" />
   <br/>
 
@@ -20,9 +19,8 @@
   - [💻 Getting Started ](#-getting-started-)
     - [Prerequisites](#prerequisites)
     - [Setup](#setup)
-    - [Install](#install)
-    - [Usage](#usage)
-    - [Deployment](#deployment)
+    - [Build](#build)
+    - [Development](#development)
   - [🔭 Future Features ](#-future-features-)
   - [📝 License ](#-license-)
 
@@ -82,50 +80,33 @@ Clone this repository to your desired folder:
   git clone git@gitlab.isima.fr:rovandemer/astroproject.git
 ```
 
-### Install
+### Build
 
-Install this project with:
-
-```sh
-  mvn clean install
-```
-
-Then configure the environment variables:
+Build the project using the following command:
 
 ```sh
-  cp .env.template .env
+  wails3 build
 ```
 
-### Usage
+### Development
 
 To run the project, execute the following command:
 
 ```sh
-  docker-compose up
-```
-
-### Deployment
-
-You can deploy this project using:
-
-```sh
-  mvn clean install
-  docker-compose up
+wails3 dev
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 🔭 Future Features <a name="future-features"></a>
 
-> Describe 1 - 3 features you will add to the project.
-
-- [ ] **Web UI based on SSE (Server-Sent Events)**
-- [ ] **Login with 3rd party providers**
+- [ ] Add formulas to personalize the competitions
+- [ ] Display the results of the competitions
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 📝 License <a name="license"></a>
 
-This project is [Apache](LICENSE) licensed.
+This project is [GNU](LICENSE) licensed.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
