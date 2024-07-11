@@ -1,59 +1,131 @@
-# Welcome to Your New Wails3 Project!
+<a name="readme-top"></a>
 
-Congratulations on generating your Wails3 application! This README will guide you through the next steps to get your project up and running.
+<div align="center">
+  <!-- You are encouraged to replace this logo with your own! Otherwise you can also remove it. -->
+  <img src="doc/logo.png" alt="logo" width="140"  height="auto" />
+  <br/>
 
-## Getting Started
+<h3><b>Astro - A new Universe</b></h3>
 
-1. Navigate to your project directory in the terminal.
+</div>
 
-2. To run your application in development mode, use the following command:
 
-   ```
-   wails3 dev
-   ```
+# 📗 Table of Contents
 
-   This will start your application and enable hot-reloading for both frontend and backend changes.
+- [📗 Table of Contents](#-table-of-contents)
+- [📖 Astro ](#-astro-)
+  - [🛠 Built With ](#-built-with-)
+    - [Tech Stack ](#tech-stack-)
+    - [Key Features ](#key-features-)
+  - [💻 Getting Started ](#-getting-started-)
+    - [Prerequisites](#prerequisites)
+    - [Setup](#setup)
+    - [Install](#install)
+    - [Usage](#usage)
+    - [Deployment](#deployment)
+  - [🔭 Future Features ](#-future-features-)
+  - [📝 License ](#-license-)
 
-3. To build your application for production, use:
+# 📖 Astro <a name="about-project"></a>
 
-   ```
-   wails3 build
-   ```
 
-   This will create a production-ready executable in the `build` directory.
+**Astro** is an Open-Source and free project to organize competitions and events.
 
-## Exploring Wails3 Features
+## 🛠 Built With <a name="built-with"></a>
 
-Now that you have your project set up, it's time to explore the features that Wails3 offers:
+### Tech Stack <a name="tech-stack"></a>
 
-1. **Check out the examples**: The best way to learn is by example. Visit the `examples` directory in the `v3/examples` directory to see various sample applications.
+The project is built using the following technologies:
 
-2. **Run an example**: To run any of the examples, navigate to the example's directory and use:
+<details>
+  <summary>Back-End</summary>
+  <ul>
+    <li><a href="https://go.dev">Go</a></li>
+  </ul>
+</details>
 
-   ```
-   go run .
-   ```
+<details>
+<summary>Front-End</summary>
+  <ul>
+    <li><a href="https://svelte.dev">Svelte</a></li>
+  </ul>
+</details>
 
-   Note: Some examples may be under development during the alpha phase.
+It is powered by the [Wails framework](http://wails.io).
 
-3. **Explore the documentation**: Visit the [Wails3 documentation](https://v3alpha.wails.io/) for in-depth guides and API references.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-4. **Join the community**: Have questions or want to share your progress? Join the [Wails Discord](https://discord.gg/JDdSxwjhGf) or visit the [Wails discussions on GitHub](https://github.com/wailsapp/wails/discussions).
+### Key Features <a name="key-features"></a>
 
-## Project Structure
+> 👷‍ The project is currently under development.
 
-Take a moment to familiarize yourself with your project structure:
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-- `frontend/`: Contains your frontend code (HTML, CSS, JavaScript/TypeScript)
-- `main.go`: The entry point of your Go backend
-- `app.go`: Define your application structure and methods here
-- `wails.json`: Configuration file for your Wails project
+## 💻 Getting Started <a name="getting-started"></a>
 
-## Next Steps
+To get a local copy up and running, follow these steps.
 
-1. Modify the frontend in the `frontend/` directory to create your desired UI.
-2. Add backend functionality in `main.go`.
-3. Use `wails3 dev` to see your changes in real-time.
-4. When ready, build your application with `wails3 build`.
+### Prerequisites
 
-Happy coding with Wails3! If you encounter any issues or have questions, don't hesitate to consult the documentation or reach out to the Wails community.
+In order to run this project you need:
+
+- [Go](https://golang.org/dl/)
+- [Node.js](https://nodejs.org/en/download/)
+- [WailsV3](https://v3alpha.wails.io/getting-started/installation/)
+
+### Setup
+
+Clone this repository to your desired folder:
+
+```sh
+  cd my-folder
+  git clone git@gitlab.isima.fr:rovandemer/astroproject.git
+```
+
+### Install
+
+Install this project with:
+
+```sh
+  mvn clean install
+```
+
+Then configure the environment variables:
+
+```sh
+  cp .env.template .env
+```
+
+### Usage
+
+To run the project, execute the following command:
+
+```sh
+  docker-compose up
+```
+
+### Deployment
+
+You can deploy this project using:
+
+```sh
+  mvn clean install
+  docker-compose up
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 🔭 Future Features <a name="future-features"></a>
+
+> Describe 1 - 3 features you will add to the project.
+
+- [ ] **Web UI based on SSE (Server-Sent Events)**
+- [ ] **Login with 3rd party providers**
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 📝 License <a name="license"></a>
+
+This project is [Apache](LICENSE) licensed.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
