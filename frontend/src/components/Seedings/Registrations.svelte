@@ -28,6 +28,7 @@
 
     onMount(async () => {
         await loadPlayers();
+        sortBy = { key: "PlayerInitialRank", asc: true };
     });
 
     function getPlayerValueByKey(player: Models.Player | null, key: string) {
