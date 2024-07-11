@@ -107,7 +107,8 @@ const (
 	REGISTERING State = iota // 0
 	STARTED                  // 1
 	FINISHED                 // 2
-	IDLE                     // 3
+	LOCKED                   // 3
+	IDLE                     // 4
 )
 
 func (s State) String() string {
@@ -118,6 +119,8 @@ func (s State) String() string {
 		return "Started"
 	case FINISHED:
 		return "Finished"
+	case LOCKED:
+		return "Locked"
 	case IDLE:
 		return "Idle"
 	default:
