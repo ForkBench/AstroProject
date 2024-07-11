@@ -1,10 +1,5 @@
 package services
 
-import (
-	"encoding/json"
-	"os"
-)
-
 // Category : Age category
 type Category uint8
 
@@ -128,32 +123,4 @@ func (s State) String() string {
 	default:
 		return "Unknown"
 	}
-}
-
-// ---- Generic JSON loader ----
-type loadable interface {
-	Load()
-}
-
-func LoadData[T any](filename string) []T {
-	// Read the file
-	jsonFile, err := os.Open(filename)
-	if err != nil {
-		panic(err)
-	}
-	defer func(jsonFile *os.File) {
-		err := jsonFile.Close()
-		if err != nil {
-			panic(err)
-		}
-	}(jsonFile)
-
-	// Decode the JSON
-	var data []T
-	err = json.NewDecoder(jsonFile).Decode(&data)
-	if err != nil {
-		panic(err)
-	}
-
-	return data
 }

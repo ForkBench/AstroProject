@@ -5,6 +5,7 @@
     import Registrations from "./components/Registrations.svelte";
     import * as Session from "../bindings/changeme/astro/services/session";
     import { Competition } from "../bindings/changeme/astro/services/models";
+    import NewPlayerForm from "./components/NewPlayerForm.svelte";
 
     let competitions: Competition[] = [];
 
@@ -17,11 +18,12 @@
 
 <div class="container">
     <NavBar />
-    {#if competitions.length <= competitionID}
+    <NewPlayerForm />
+    <!-- {#if competitions.length <= competitionID}
         <p>Loading...</p>
     {:else}
         <Registrations competition={competitions[competitionID]} />
-    {/if}
+    {/if} -->
 </div>
 
 <style>

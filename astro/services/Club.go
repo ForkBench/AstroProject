@@ -19,15 +19,3 @@ type Club struct {
 func (n *Nation) GetFlagPath() string {
 	return "https://flagsapi.com/" + n.NationCode + "/flat/64.png"
 }
-
-func (r *Nation) Load() []Nation {
-	return LoadData[Nation]("../resources/nations.json")
-}
-
-func (r *Region) Load() []Region {
-	return LoadData[Region]("../resources/regions.json")
-}
-
-func (c *Club) Load() []Club {
-	return LoadData[Club]("../resources/clubs.json")
-}
