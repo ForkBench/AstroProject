@@ -1,5 +1,11 @@
 package services
 
+import (
+	"math/rand/v2"
+
+	"github.com/go-faker/faker/v4"
+)
+
 // Player : Person details
 type Player struct {
 	PlayerID          uint16 // More than 255 players
@@ -35,4 +41,16 @@ type Referee struct {
 
 func (r Referee) String() string {
 	return "Referee : " + r.RefereeFirstname + " " + r.RefereeLastname
+}
+
+func (p *Player) GenerateRandomPlayer() *Player {
+	return &Player{
+		PlayerID:          65535,
+		PlayerFirstname:   faker.FirstName(),
+		PlayerLastname:    faker.LastName(),
+		PlayerClub:        GenerateClub(),
+		PlayerNation:      GenerateNation(),
+		PlayerRegion:      GenerateRegion(),
+		PlayerInitialRank: uint16(rand.Uint32()/2) % 100,
+	}
 }

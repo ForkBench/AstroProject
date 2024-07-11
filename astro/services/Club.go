@@ -19,3 +19,25 @@ type Club struct {
 func (n *Nation) GetFlagPath() string {
 	return "https://flagsapi.com/" + n.NationCode + "/flat/64.png"
 }
+
+func GenerateNation() *Nation {
+	return &Nation{
+		NationID:   69,
+		NationName: "France",
+		NationCode: "FR",
+	}
+}
+
+func GenerateRegion() *Region {
+	return &Region{
+		RegionID:   16,
+		RegionName: "OCCITANIE",
+	}
+}
+
+func GenerateClub() *Club {
+	return &Club{
+		ClubID:   73,
+		ClubName: "BERGERAC CAD",
+	}
+}

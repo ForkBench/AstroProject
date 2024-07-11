@@ -3,6 +3,7 @@
     import * as Models from "../../../bindings/changeme/astro/services/models";
     import * as Session from "../../../bindings/changeme/astro/services/session";
     import { SelectedCompetition } from "../../store";
+    import { GenerateRandomPlayer } from "../../../bindings/changeme/astro/services/player";
     import swal from "sweetalert";
 
     let players: (Models.Player | null)[] = [];
@@ -229,8 +230,8 @@
                                 }}>{player.PlayerLastname}</td
                             >
                             <td
-                                >{#if player.PlayerClub}{player.PlayerClub}{:else}Sans
-                                    Nom{/if}</td
+                                >{#if player.PlayerClub}{player.PlayerClub
+                                        .club_name}{:else}Sans Nom{/if}</td
                             >
                         </tr>
                     {/if}
@@ -239,15 +240,8 @@
                     <td colspan="4">
                         <button
                             on:click={async () => {
-                                var player = Models.Player.createFrom({
-                                    PlayerID: 65535,
-                                    PlayerFirstname: "Firstname",
-                                    PlayerLastname: "Lastname",
-                                    PlayerNationID: 0,
-                                    PlayerClubID: 0,
-                                    PlayerRegionID: 0,
-                                    PlayerInitialRank: 2,
-                                });
+                                var player = await GenerateRandomPlayer();
+
                                 if (competition != undefined)
                                     await Session.AddPlayerToCompetition(
                                         competition.CompetitionID,
