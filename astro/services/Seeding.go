@@ -26,7 +26,7 @@ func (s *SeedingStage) String() string {
 	return str
 }
 
-func CreateSeedingStage(seedingStageID uint8, enteringPlayerNumber uint16, leavingPlayerNumber uint16) SeedingStage {
+func CreateSeedingStage(seedingStageID uint8, enteringPlayerNumber uint16, leavingPlayerNumber uint16) *SeedingStage {
 	var s SeedingStage
 
 	s.SeedingStageID = seedingStageID
@@ -35,16 +35,16 @@ func CreateSeedingStage(seedingStageID uint8, enteringPlayerNumber uint16, leavi
 	s.SeedingState = IDLE
 	s.SeedingSize = 0
 
-	return s
+	return &s
 }
 
 // From interface
-func (s *SeedingStage) PlayerPosition(player Player) uint16 {
+func (s *SeedingStage) PlayerPosition(player *Player) uint16 {
 	return s.SeedingSeedings[player.PlayerID].SeedingPosition
 }
 
 // From interface
-func (s *SeedingStage) AddPlayer(player Player) bool {
+func (s *SeedingStage) AddPlayer(player *Player) bool {
 	if s.SeedingState != REGISTERING {
 		return false
 	}
@@ -55,7 +55,7 @@ func (s *SeedingStage) AddPlayer(player Player) bool {
 
 	s.SeedingSeedings[player.PlayerID] = &Seeding{
 		SeedingPosition: s.SeedingSize,
-		SeedingPlayer:   &player,
+		SeedingPlayer:   player,
 	}
 
 	s.SeedingSize++
@@ -64,7 +64,7 @@ func (s *SeedingStage) AddPlayer(player Player) bool {
 }
 
 // From interface
-func (s *SeedingStage) RemovePlayer(player Player) bool {
+func (s *SeedingStage) RemovePlayer(player *Player) bool {
 	if s.SeedingState != REGISTERING {
 		return false
 	}
@@ -91,11 +91,11 @@ func (s *SeedingStage) GetState() State {
 }
 
 // From interface
-func (s *SeedingStage) GetPlayers() []Player {
-	players := []Player{}
+func (s *SeedingStage) GetPlayers() []*Player {
+	players := []*Player{}
 
 	for _, seeding := range s.SeedingSeedings {
-		players = append(players, *seeding.SeedingPlayer)
+		players = append(players, seeding.SeedingPlayer)
 	}
 
 	return players

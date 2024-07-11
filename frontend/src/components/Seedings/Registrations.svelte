@@ -130,6 +130,16 @@
                             sortBy = { key: "PlayerClub", asc: !sortBy.asc };
                         }}>Club</th
                     >
+                    <th
+                        on:click={() => {
+                            sortBy = { key: "PlayerRegion", asc: !sortBy.asc };
+                        }}>Region</th
+                    >
+                    <th
+                        on:click={() => {
+                            sortBy = { key: "PlayerCountry", asc: !sortBy.asc };
+                        }}>Country</th
+                    >
                 </tr>
             </thead>
             <tbody>
@@ -232,6 +242,14 @@
                             <td
                                 >{#if player.PlayerClub}{player.PlayerClub
                                         .club_name}{:else}Sans Nom{/if}</td
+                            >
+                            <td
+                                >{#if player.PlayerRegion}{player.PlayerRegion
+                                        .region_name}{:else}Sans Nom{/if}</td
+                            >
+                            <td
+                                >{#if player.PlayerNation}{player.PlayerNation
+                                        .nation_name}{:else}Sans Nom{/if}</td
                             >
                         </tr>
                     {/if}

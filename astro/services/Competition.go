@@ -28,7 +28,23 @@ func CreateCompetition(competitionID uint8, competitionName string, competitionC
 	c.CompetitionStages = map[uint8]*Stage{}
 	c.CompetitionPlayers = map[uint16]*Player{}
 
+	c.InitCompetition()
+
 	return c
+}
+
+func (c *Competition) InitCompetition() bool {
+	if c.CompetitionState != REGISTERING {
+		return false
+	}
+
+	// Add new stage
+	var poolStage = CreateSeedingStage(0, 300, 300)
+	// TODO: Max player number should be dynamic
+
+	c.AddStage(poolStage)
+
+	return true
 }
 
 func (c *Competition) StartCompetition() bool {
@@ -78,11 +94,11 @@ func (c *Competition) RemovePlayer(player *Player) bool {
 }
 
 func (c *Competition) AddPlayerToStage(player Player, stage Stage) bool {
-	return stage.AddPlayer(player)
+	return stage.AddPlayer(&player)
 }
 
 func (c *Competition) RemovePlayerFromStage(player Player, stage Stage) bool {
-	return stage.RemovePlayer(player)
+	return stage.RemovePlayer(&player)
 }
 
 func (c *Competition) UpdatePlayer(player *Player) bool {
@@ -92,6 +108,16 @@ func (c *Competition) UpdatePlayer(player *Player) bool {
 	}
 
 	c.CompetitionPlayers[player.PlayerID] = player
+
+	return true
+}
+
+func (c *Competition) AddStage(stage Stage) bool {
+	if c.CompetitionState != REGISTERING {
+		return false
+	}
+
+	c.CompetitionStages[stage.GetID()] = &stage
 
 	return true
 }

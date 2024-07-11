@@ -24,8 +24,18 @@ export function AddPlayerToStage(player: $models.Player, stage: $models.Stage): 
     return $resultPromise;
 }
 
+export function AddStage(stage: $models.Stage): Promise<boolean> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(2261622806, stage) as any;
+    return $resultPromise;
+}
+
 export function FinishCompetition(): Promise<boolean> & { cancel(): void } {
     let $resultPromise = $Call.ByID(826570137) as any;
+    return $resultPromise;
+}
+
+export function InitCompetition(): Promise<boolean> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(582268878) as any;
     return $resultPromise;
 }
 

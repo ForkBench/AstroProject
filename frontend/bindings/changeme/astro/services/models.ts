@@ -344,7 +344,12 @@ export enum State {
     /**
      * 3
      */
-    IDLE = 3,
+    LOCKED = 3,
+
+    /**
+     * 4
+     */
+    IDLE = 4,
 };
 
 /**

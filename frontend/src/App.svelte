@@ -12,6 +12,11 @@
         competitions = await Session.GetCompetitions();
         loading = false;
     });
+
+    // Listen for the "need-to-update" event
+    window.addEventListener("need-to-update", async () => {
+        competitions = await Session.GetCompetitions();
+    });
 </script>
 
 <div class="container">

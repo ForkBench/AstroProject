@@ -9,22 +9,25 @@ import {Call as $Call, Create as $Create} from "@wailsio/runtime";
 // @ts-ignore: Unused imports
 import * as $models from "./models.js";
 
-export function AddPlayer(player: $models.Player): Promise<boolean> & { cancel(): void } {
+export function AddPlayer(player: $models.Player | null): Promise<boolean> & { cancel(): void } {
     let $resultPromise = $Call.ByID(2419770436, player) as any;
     return $resultPromise;
 }
 
-export function PlayerPosition(player: $models.Player): Promise<number> & { cancel(): void } {
+/**
+ * ------------------------------ Pool ------------------------------
+ */
+export function PlayerPosition(player: $models.Player | null): Promise<number> & { cancel(): void } {
     let $resultPromise = $Call.ByID(199697208, player) as any;
     return $resultPromise;
 }
 
-export function RemovePlayer(player: $models.Player): Promise<boolean> & { cancel(): void } {
+export function RemovePlayer(player: $models.Player | null): Promise<boolean> & { cancel(): void } {
     let $resultPromise = $Call.ByID(2585363663, player) as any;
     return $resultPromise;
 }
 
-export function SetReferee(referee: $models.Referee): Promise<void> & { cancel(): void } {
+export function SetReferee(referee: $models.Referee | null): Promise<boolean> & { cancel(): void } {
     let $resultPromise = $Call.ByID(1520561734, referee) as any;
     return $resultPromise;
 }

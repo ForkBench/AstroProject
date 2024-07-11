@@ -14,11 +14,6 @@ var assets embed.FS
 func main() {
 
 	session := services.Session{}
-	session.AddCompetition("Premier League", "U17", "Foil")
-	session.AddCompetition("Premier League", "U17", "Foil")
-	session.AddCompetition("Premier League", "U17", "Foil")
-	session.AddCompetition("Premier League", "U17", "Foil")
-	session.Competitions[0].AddPlayer(services.CreatePlayer(1, "John", "Doe"))
 
 	app := application.New(application.Options{
 		Name:        "AstroProject",

@@ -13,6 +13,9 @@
 
     async function loadCompetitions() {
         competitions = await GetCompetitions();
+
+        // Emit a signal to the parent component
+        dispatchEvent(new CustomEvent("need-to-update", {}));
     }
 
     onMount(loadCompetitions);
