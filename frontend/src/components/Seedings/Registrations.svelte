@@ -9,6 +9,7 @@
     let players: (Models.Player | null)[] = [];
     let filteredPlayers: (Models.Player | null)[] = [];
     let competition: Models.Competition | undefined;
+    var playerNumber = 0;
 
     SelectedCompetition.subscribe((value) => {
         competition = value;
@@ -145,7 +146,11 @@
             <tbody>
                 {#each filteredPlayers as player}
                     {#if player != null}
-                        <tr>
+                        <tr
+                            class:gold={player.PlayerInitialRank == 1}
+                            class:silver={player.PlayerInitialRank == 2}
+                            class:bronze={player.PlayerInitialRank == 3}
+                        >
                             <td
                                 on:dblclick={async () => {
                                     let newRank = await swal({
@@ -259,6 +264,9 @@
                         <button
                             on:click={async () => {
                                 var player = await GenerateRandomPlayer();
+                                if (player != null) {
+                                    player.PlayerInitialRank = ++playerNumber;
+                                }
 
                                 if (competition != undefined)
                                     await Session.AddPlayerToCompetition(
@@ -293,5 +301,17 @@
         font-size: 1em;
         border-radius: 10px;
         border: solid 1px #003566;
+    }
+
+    .gold {
+        background-color: #e9c46a;
+    }
+
+    .silver {
+        background-color: #adb5bd;
+    }
+
+    .bronze {
+        background-color: #f28482;
     }
 </style>
