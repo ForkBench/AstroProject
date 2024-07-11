@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import * as Models from "../../bindings/changeme/astro/services/models";
-    import * as Session from "../../bindings/changeme/astro/services/session";
+    import * as Models from "../../../bindings/changeme/astro/services/models";
+    import * as Session from "../../../bindings/changeme/astro/services/session";
     import swal from "sweetalert";
 
     export let competition: Models.Competition;

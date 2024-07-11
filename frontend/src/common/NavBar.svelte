@@ -7,6 +7,7 @@
         RemoveCompetition,
     } from "../../bindings/changeme/astro/services/session";
     import { onMount } from "svelte";
+    import { SelectedCompetition } from "../store";
 
     let competitions: Competition[] = [];
 
@@ -19,16 +20,23 @@
 
 <div class="nav-bar">
     <div class="competition-container">
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
         {#each competitions as competition}
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
             <div
                 class="competition-el"
                 style="background-color: {randomColor(rightBrighness)};"
+                on:click={() => {
+                    SelectedCompetition.set(competition);
+                }}
             >
                 <span>{competition.CompetitionName}</span>
                 <button
                     on:click={async () => {
                         await RemoveCompetition(competition.CompetitionID);
                         loadCompetitions();
+
+                        SelectedCompetition.set(undefined);
                     }}>X</button
                 >
             </div>
