@@ -45,4 +45,3 @@ __sapper__/
 
 # Frontend specific
 frontend/dist
-frontend/bindings
