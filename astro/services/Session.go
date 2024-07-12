@@ -74,7 +74,7 @@ func (s *Session) AddPlayerToCompetition(competitionID uint8, player *Player) bo
 
 func (s *Session) RemovePlayerFromCompetition(competitionID uint8, player *Player) bool {
 	competition := s.GetCompetition(competitionID)
-	if competition.CompetitionName == "" {
+	if competition == nil {
 		return false
 	}
 
@@ -83,7 +83,7 @@ func (s *Session) RemovePlayerFromCompetition(competitionID uint8, player *Playe
 
 func (s *Session) GetAllPlayersFromCompetition(competitionID uint8) []*Player {
 	competition := s.GetCompetition(competitionID)
-	if competition.CompetitionName == "" {
+	if competition == nil {
 		return []*Player{}
 	}
 
@@ -96,16 +96,18 @@ func (s *Session) GetAllPlayersFromCompetition(competitionID uint8) []*Player {
 
 func (s *Session) UpdateCompetitionPlayer(competitionID uint8, player *Player) bool {
 	competition := s.GetCompetition(competitionID)
-	if competition.CompetitionName == "" {
+	if competition == nil {
 		return false
 	}
+
+	// TODO: Check if player is in competition
 
 	return competition.UpdatePlayer(player)
 }
 
 func (s *Session) GetStageKind(competitionID uint8, stageID uint8) StageKind {
 	competition := s.GetCompetition(competitionID)
-	if competition.CompetitionName == "" {
+	if competition == nil {
 		return UNKNOWN
 	}
 
@@ -115,4 +117,46 @@ func (s *Session) GetStageKind(competitionID uint8, stageID uint8) StageKind {
 	}
 
 	return (*stage).GetKind()
+}
+
+func (s *Session) AddPlayerToCompetitionStage(competitionID uint8, stageID uint8, player *Player) bool {
+	competition := s.GetCompetition(competitionID)
+	if competition == nil {
+		return false
+	}
+
+	stage := competition.GetStage(stageID)
+	if stage == nil {
+		return false
+	}
+
+	return s.AddPlayerToCompetition(competitionID, player) && (*stage).AddPlayer(player)
+}
+
+func (s *Session) RemovePlayerFromCompetitionStage(competitionID uint8, stageID uint8, player *Player) bool {
+	competition := s.GetCompetition(competitionID)
+	if competition == nil {
+		return false
+	}
+
+	stage := competition.GetStage(stageID)
+	if stage == nil {
+		return false
+	}
+
+	return (*stage).RemovePlayer(player)
+}
+
+func (s *Session) GetPlayersFromCompetitionStage(competitionID uint8, stageID uint8) []*Player {
+	competition := s.GetCompetition(competitionID)
+	if competition == nil {
+		return []*Player{}
+	}
+
+	stage := competition.GetStage(stageID)
+	if stage == nil {
+		return []*Player{}
+	}
+
+	return (*stage).GetPlayers()
 }

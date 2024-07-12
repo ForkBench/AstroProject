@@ -43,6 +43,7 @@ func (c *Competition) InitCompetition() bool {
 	var seedingStage = CreateSeedingStage(0, 300, 300)
 	// TODO: Max player number should be dynamic
 
+	seedingStage.Register()
 	c.AddStage(seedingStage)
 
 	c.CompetitionCurrentStageID = 0

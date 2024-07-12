@@ -8,7 +8,7 @@
     import { onMount } from "svelte";
     import * as Models from "../../../bindings/changeme/astro/services/models";
     import * as Session from "../../../bindings/changeme/astro/services/session";
-    import { SelectedCompetition } from "../../store";
+    import { SelectedCompetition, CurrentStage } from "../../store";
     import { GenerateRandomPlayer } from "../../../bindings/changeme/astro/services/player";
     import swal from "sweetalert";
     import { getNationFlag, getNationFlatAlt } from "../../Util";
@@ -17,12 +17,18 @@
     let players: (Models.Player | null)[] = [];
     let filteredPlayers: (Models.Player | null)[] = [];
     let competition: Models.Competition | undefined;
+    let stage: Models.Stage | undefined;
     let sortBy = { key: "", asc: true };
     let searchTerms = "";
 
     // Listen to any change in the selected competition
     SelectedCompetition.subscribe((value) => {
         competition = value;
+    });
+
+    // Listen to any change in the current stage
+    CurrentStage.subscribe((value) => {
+        stage = value;
         loadPlayers();
     });
 
@@ -32,11 +38,12 @@
             return;
         }
 
-        Session.GetAllPlayersFromCompetition(competition.CompetitionID).then(
-            (result) => {
-                players = result;
-            }
-        );
+        Session.GetPlayersFromCompetitionStage(
+            competition.CompetitionID,
+            stage?.StageID
+        ).then((result) => {
+            players = result;
+        });
     }
 
     // When the page is loaded, load the players, and set the default sorting
@@ -61,7 +68,11 @@
             case "PlayerLastname":
                 return player.PlayerLastname;
             case "PlayerClub":
-                return player.PlayerClub;
+                return player.PlayerClub?.club_name;
+            case "PlayerRegion":
+                return player.PlayerRegion?.region_name;
+            case "PlayerCountry":
+                return player.PlayerNation?.nation_name;
             default:
                 return "";
         }
@@ -74,6 +85,10 @@
         if (aValue === null || bValue === null) {
             return 0;
         }
+        if (aValue === undefined || bValue === undefined) {
+            return 0;
+        }
+
         if (aValue < bValue) {
             return sortBy.asc ? -1 : 1;
         }
@@ -119,6 +134,13 @@
                     <!-- 
                     The following code is used to sort the players by the column clicked.                    
                     -->
+                    <th
+                        on:click={() => {
+                            sortBy = { key: "PlayerPresent", asc: !sortBy.asc };
+                        }}
+                    >
+                        Present
+                    </th>
                     <th
                         on:click={() => {
                             sortBy = {
@@ -169,6 +191,9 @@
                             class:silver={player.PlayerInitialRank == 2}
                             class:bronze={player.PlayerInitialRank == 3}
                         >
+                            <td>
+                                <!-- TODO: input checkbox -->
+                            </td>
                             <td
                                 on:dblclick={async () => {
                                     // Show a prompt to the user to change the rank
@@ -209,6 +234,7 @@
                                             ).then(() => {
                                                 loadPlayers();
                                             });
+                                        // TODO: Backend wise, change it
                                     }
                                 }}>{player.PlayerInitialRank}</td
                             >
@@ -238,6 +264,7 @@
                                             ).then(() => {
                                                 loadPlayers();
                                             });
+                                        // TODO: Backend wise, change it
                                     }
                                 }}
                                 >{player.PlayerLastname.toLocaleUpperCase()}</td
@@ -268,6 +295,7 @@
                                             ).then(() => {
                                                 loadPlayers();
                                             });
+                                        // TODO: Backend wise, change it
                                     }
                                 }}>{player.PlayerFirstname}</td
                             >
@@ -305,8 +333,9 @@
 
                                 // Add the player to the competition
                                 if (competition != undefined)
-                                    await Session.AddPlayerToCompetition(
+                                    await Session.AddPlayerToCompetitionStage(
                                         competition.CompetitionID,
+                                        stage?.SeedingStageID,
                                         player
                                     ).then(() => {
                                         loadPlayers();

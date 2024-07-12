@@ -1,7 +1,7 @@
 <script lang="ts">
     import Registrations from "./components/Registrations/Registrations.svelte";
     import * as Models from "./../bindings/changeme/astro/services/models";
-    import { SelectedCompetition } from "./store";
+    import { SelectedCompetition, CurrentStage } from "./store";
     import { onMount } from "svelte";
     import { GetStageKind } from "./../bindings/changeme/astro/services/session";
 
@@ -16,6 +16,8 @@
                         competition.CompetitionStages[
                             `${competition.CompetitionCurrentStageID}`
                         ];
+                    CurrentStage.set(currentStage);
+
                     GetStageKind(
                         competition.CompetitionID,
                         currentStage.StageID

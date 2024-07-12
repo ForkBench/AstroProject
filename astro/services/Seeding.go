@@ -2,8 +2,9 @@ package services
 
 // Seeding : Seeding details
 type Seeding struct {
-	SeedingPosition uint16
-	SeedingPlayer   *Player
+	SeedingPosition      uint16
+	SeedingPlayer        *Player
+	SeedingPlayerPresent bool
 }
 
 type SeedingStage struct {

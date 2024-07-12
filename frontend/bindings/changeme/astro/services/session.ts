@@ -24,6 +24,11 @@ export function AddPlayerToCompetition(competitionID: number, player: $models.Pl
     return $resultPromise;
 }
 
+export function AddPlayerToCompetitionStage(competitionID: number, stageID: number, player: $models.Player | null): Promise<boolean> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(2910612480, competitionID, stageID, player) as any;
+    return $resultPromise;
+}
+
 export function GetAllPlayersFromCompetition(competitionID: number): Promise<($models.Player | null)[]> & { cancel(): void } {
     let $resultPromise = $Call.ByID(3547487506, competitionID) as any;
     let $typingPromise = $resultPromise.then(($result) => {
@@ -51,6 +56,15 @@ export function GetCompetitions(): Promise<$models.Competition[]> & { cancel(): 
     return $typingPromise;
 }
 
+export function GetPlayersFromCompetitionStage(competitionID: number, stageID: number): Promise<($models.Player | null)[]> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(145932197, competitionID, stageID) as any;
+    let $typingPromise = $resultPromise.then(($result) => {
+        return $$createType2($result);
+    }) as any;
+    $typingPromise.cancel = $resultPromise.cancel.bind($resultPromise);
+    return $typingPromise;
+}
+
 export function GetStageKind(competitionID: number, stageID: number): Promise<$models.StageKind> & { cancel(): void } {
     let $resultPromise = $Call.ByID(3392771308, competitionID, stageID) as any;
     return $resultPromise;
@@ -63,6 +77,11 @@ export function RemoveCompetition(competitionID: number): Promise<void> & { canc
 
 export function RemovePlayerFromCompetition(competitionID: number, player: $models.Player | null): Promise<boolean> & { cancel(): void } {
     let $resultPromise = $Call.ByID(1688030656, competitionID, player) as any;
+    return $resultPromise;
+}
+
+export function RemovePlayerFromCompetitionStage(competitionID: number, stageID: number, player: $models.Player | null): Promise<boolean> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(4015938334, competitionID, stageID, player) as any;
     return $resultPromise;
 }
 
