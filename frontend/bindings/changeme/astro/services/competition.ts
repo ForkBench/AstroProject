@@ -34,6 +34,11 @@ export function FinishCompetition(): Promise<boolean> & { cancel(): void } {
     return $resultPromise;
 }
 
+export function GetStage(stageID: number): Promise<$models.Stage | null> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(2570706223, stageID) as any;
+    return $resultPromise;
+}
+
 export function InitCompetition(): Promise<boolean> & { cancel(): void } {
     let $resultPromise = $Call.ByID(582268878) as any;
     return $resultPromise;
@@ -46,6 +51,11 @@ export function RemovePlayer(player: $models.Player | null): Promise<boolean> & 
 
 export function RemovePlayerFromStage(player: $models.Player, stage: $models.Stage): Promise<boolean> & { cancel(): void } {
     let $resultPromise = $Call.ByID(362483458, player, stage) as any;
+    return $resultPromise;
+}
+
+export function RemoveStage(stage: $models.Stage): Promise<boolean> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(1871882137, stage) as any;
     return $resultPromise;
 }
 

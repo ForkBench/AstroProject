@@ -10,6 +10,7 @@ type Competition struct {
 	CompetitionMaxStageNumber uint8
 	CompetitionStages         map[uint8]*Stage
 	CompetitionPlayers        map[uint16]*Player
+	CompetitionCurrentStageID uint8
 }
 
 func (c *Competition) String() string {
@@ -39,10 +40,12 @@ func (c *Competition) InitCompetition() bool {
 	}
 
 	// Add new stage
-	var poolStage = CreateSeedingStage(0, 300, 300)
+	var seedingStage = CreateSeedingStage(0, 300, 300)
 	// TODO: Max player number should be dynamic
 
-	c.AddStage(poolStage)
+	c.AddStage(seedingStage)
+
+	c.CompetitionCurrentStageID = 0
 
 	return true
 }
@@ -120,4 +123,26 @@ func (c *Competition) AddStage(stage Stage) bool {
 	c.CompetitionStages[stage.GetID()] = &stage
 
 	return true
+}
+
+func (c *Competition) RemoveStage(stage Stage) bool {
+	if c.CompetitionState != REGISTERING {
+		return false
+	}
+
+	if _, ok := c.CompetitionStages[stage.GetID()]; !ok {
+		return false
+	}
+
+	delete(c.CompetitionStages, stage.GetID())
+
+	return true
+}
+
+func (c *Competition) GetStage(stageID uint8) *Stage {
+	if _, ok := c.CompetitionStages[stageID]; !ok {
+		return nil
+	}
+
+	return c.CompetitionStages[stageID]
 }

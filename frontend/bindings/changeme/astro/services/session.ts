@@ -51,6 +51,11 @@ export function GetCompetitions(): Promise<$models.Competition[]> & { cancel(): 
     return $typingPromise;
 }
 
+export function GetStageKind(competitionID: number, stageID: number): Promise<$models.StageKind> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(3392771308, competitionID, stageID) as any;
+    return $resultPromise;
+}
+
 export function RemoveCompetition(competitionID: number): Promise<void> & { cancel(): void } {
     let $resultPromise = $Call.ByID(2428225511, competitionID) as any;
     return $resultPromise;

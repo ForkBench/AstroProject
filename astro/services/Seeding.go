@@ -91,6 +91,11 @@ func (s *SeedingStage) GetState() State {
 }
 
 // From interface
+func (s *SeedingStage) GetKind() StageKind {
+	return REGISTRATIONS
+}
+
+// From interface
 func (s *SeedingStage) GetPlayers() []*Player {
 	players := []*Player{}
 

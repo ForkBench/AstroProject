@@ -102,3 +102,17 @@ func (s *Session) UpdateCompetitionPlayer(competitionID uint8, player *Player) b
 
 	return competition.UpdatePlayer(player)
 }
+
+func (s *Session) GetStageKind(competitionID uint8, stageID uint8) StageKind {
+	competition := s.GetCompetition(competitionID)
+	if competition.CompetitionName == "" {
+		return UNKNOWN
+	}
+
+	stage := competition.GetStage(stageID)
+	if stage == nil {
+		return UNKNOWN
+	}
+
+	return (*stage).GetKind()
+}

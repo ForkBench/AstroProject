@@ -100,6 +100,7 @@ export class Competition {
     "CompetitionMaxStageNumber": number;
     "CompetitionStages": { [_: `${number}`]: Stage | null };
     "CompetitionPlayers": { [_: `${number}`]: Player | null };
+    "CompetitionCurrentStageID": number;
 
     /** Creates a new Competition instance. */
     constructor($$source: Partial<Competition> = {}) {
@@ -126,6 +127,9 @@ export class Competition {
         }
         if (!("CompetitionPlayers" in $$source)) {
             this["CompetitionPlayers"] = {};
+        }
+        if (!("CompetitionCurrentStageID" in $$source)) {
+            this["CompetitionCurrentStageID"] = 0;
         }
 
         Object.assign(this, $$source);
@@ -316,6 +320,46 @@ export class Region {
  * Stage : Stage details
  */
 export type Stage = any;
+
+/**
+ * Stage Kind
+ */
+export enum StageKind {
+    /**
+     * The Go zero value for the underlying type of the enum.
+     */
+    $zero = 0,
+
+    /**
+     * 0
+     */
+    REGISTRATIONS = 0,
+
+    /**
+     * 1
+     */
+    POOLS = 1,
+
+    /**
+     * 2
+     */
+    POOLSRESULTS = 2,
+
+    /**
+     * 3
+     */
+    DIRECTELIMINATION = 3,
+
+    /**
+     * 4
+     */
+    FINALRANKING = 4,
+
+    /**
+     * 5
+     */
+    UNKNOWN = 5,
+};
 
 /**
  * State : Competition state

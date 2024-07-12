@@ -96,7 +96,8 @@
         placeholder="Search for a player"
     />
     {#if competition == undefined}
-        <p>No competition selected</p>
+        <p class="error-message">Please select a competition.</p>
+        <!-- TODO: Uniformize it -->
     {:else}
         <table>
             <thead>
@@ -313,5 +314,10 @@
 
     .bronze {
         background-color: #f28482;
+    }
+
+    .error-message {
+        color: red;
+        text-align: center;
     }
 </style>

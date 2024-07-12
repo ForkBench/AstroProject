@@ -1,10 +1,11 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import NavBar from "./common/NavBar.svelte";
-    import Registrations from "./components/Seedings/Registrations.svelte";
+    import Registrations from "./components/Registrations/Registrations.svelte";
     import * as Session from "../bindings/changeme/astro/services/session";
     import { Competition } from "../bindings/changeme/astro/services/models";
     import { Competitions } from "./store";
+    import StageManager from "./StageManager.svelte";
 
     let competitions: Competition[] = [];
     let loading = true;
@@ -26,12 +27,15 @@
     {#if loading}
         <p>Loading...</p>
     {:else if competitions.length > 0}
-        <Registrations />
+        <StageManager />
     {:else}
-        <p>No competitions available or invalid competition ID.</p>
+        <p class="error-message">Please create a competition.</p>
     {/if}
 </div>
 
 <style>
-    /* Put your standard CSS here */
+    .error-message {
+        color: red;
+        text-align: center;
+    }
 </style>
