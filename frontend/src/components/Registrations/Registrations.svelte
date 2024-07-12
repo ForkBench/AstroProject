@@ -11,6 +11,7 @@
     import { SelectedCompetition } from "../../store";
     import { GenerateRandomPlayer } from "../../../bindings/changeme/astro/services/player";
     import swal from "sweetalert";
+    import { getNationFlag, getNationFlatAlt } from "../../Util";
 
     // Variables that will be used in the component
     let players: (Models.Player | null)[] = [];
@@ -124,15 +125,7 @@
                                 key: "PlayerInitialRank",
                                 asc: !sortBy.asc,
                             };
-                        }}>Initial Rank</th
-                    >
-                    <th
-                        on:click={() => {
-                            sortBy = {
-                                key: "PlayerFirstname",
-                                asc: !sortBy.asc,
-                            };
-                        }}>Firstname</th
+                        }}>Rank</th
                     >
                     <th
                         on:click={() => {
@@ -141,6 +134,14 @@
                                 asc: !sortBy.asc,
                             };
                         }}>Lastname</th
+                    >
+                    <th
+                        on:click={() => {
+                            sortBy = {
+                                key: "PlayerFirstname",
+                                asc: !sortBy.asc,
+                            };
+                        }}>Firstname</th
                     >
                     <th
                         on:click={() => {
@@ -213,6 +214,36 @@
                             >
                             <td
                                 on:dblclick={async () => {
+                                    // Show a prompt to the user to change the lastname
+                                    let newLastname = await swal({
+                                        content: {
+                                            element: "input",
+                                            attributes: {
+                                                placeholder: "New lastname",
+                                            },
+                                        },
+                                        buttons: {
+                                            cancel: true,
+                                            confirm: true,
+                                        },
+                                    });
+
+                                    // Check if the user confirmed the prompt
+                                    if (newLastname) {
+                                        player.PlayerLastname = newLastname;
+                                        if (competition != undefined)
+                                            await Session.UpdateCompetitionPlayer(
+                                                competition.CompetitionID,
+                                                player
+                                            ).then(() => {
+                                                loadPlayers();
+                                            });
+                                    }
+                                }}
+                                >{player.PlayerLastname.toLocaleUpperCase()}</td
+                            >
+                            <td
+                                on:dblclick={async () => {
                                     // Show a prompt to the user to change the firstname
                                     let newFirstname = await swal({
                                         content: {
@@ -241,35 +272,6 @@
                                 }}>{player.PlayerFirstname}</td
                             >
                             <td
-                                on:dblclick={async () => {
-                                    // Show a prompt to the user to change the lastname
-                                    let newLastname = await swal({
-                                        content: {
-                                            element: "input",
-                                            attributes: {
-                                                placeholder: "New lastname",
-                                            },
-                                        },
-                                        buttons: {
-                                            cancel: true,
-                                            confirm: true,
-                                        },
-                                    });
-
-                                    // Check if the user confirmed the prompt
-                                    if (newLastname) {
-                                        player.PlayerLastname = newLastname;
-                                        if (competition != undefined)
-                                            await Session.UpdateCompetitionPlayer(
-                                                competition.CompetitionID,
-                                                player
-                                            ).then(() => {
-                                                loadPlayers();
-                                            });
-                                    }
-                                }}>{player.PlayerLastname}</td
-                            >
-                            <td
                                 >{#if player.PlayerClub}{player.PlayerClub
                                         .club_name}{:else}Sans Nom{/if}</td
                             >
@@ -277,9 +279,14 @@
                                 >{#if player.PlayerRegion}{player.PlayerRegion
                                         .region_name}{:else}Sans Nom{/if}</td
                             >
-                            <td
-                                >{#if player.PlayerNation}{player.PlayerNation
-                                        .nation_name}{:else}Sans Nom{/if}</td
+                            <td class="flag-container"
+                                ><img
+                                    src={getNationFlag(player.PlayerNation)}
+                                    alt="Player's flag : {getNationFlatAlt(
+                                        player.PlayerNation
+                                    )}"
+                                    class="flag"
+                                /></td
                             >
                         </tr>
                     {/if}
@@ -347,5 +354,15 @@
     .error-message {
         color: red;
         text-align: center;
+    }
+
+    .flag-container {
+        text-align: left;
+    }
+
+    .flag {
+        width: 20px;
+        height: 20px;
+        vertical-align: middle;
     }
 </style>
