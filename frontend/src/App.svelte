@@ -4,6 +4,7 @@
     import Registrations from "./components/Seedings/Registrations.svelte";
     import * as Session from "../bindings/changeme/astro/services/session";
     import { Competition } from "../bindings/changeme/astro/services/models";
+    import { Competitions } from "./store";
 
     let competitions: Competition[] = [];
     let loading = true;
@@ -14,7 +15,7 @@
     });
 
     // Listen for the "need-to-update" event
-    window.addEventListener("need-to-update", async () => {
+    Competitions.subscribe(async () => {
         competitions = await Session.GetCompetitions();
     });
 </script>

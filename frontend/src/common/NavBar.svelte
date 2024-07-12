@@ -7,7 +7,7 @@
         RemoveCompetition,
     } from "../../bindings/changeme/astro/services/session";
     import { onMount } from "svelte";
-    import { SelectedCompetition } from "../store";
+    import { SelectedCompetition, Competitions } from "../store";
 
     let competitions: Competition[] = [];
 
@@ -15,7 +15,7 @@
         competitions = await GetCompetitions();
 
         // Emit a signal to the parent component
-        dispatchEvent(new CustomEvent("need-to-update", {}));
+        Competitions.set(competitions);
     }
 
     onMount(loadCompetitions);
@@ -37,9 +37,9 @@
                 <button
                     on:click={async () => {
                         await RemoveCompetition(competition.CompetitionID);
-                        loadCompetitions();
 
                         SelectedCompetition.set(undefined);
+                        loadCompetitions();
                     }}>X</button
                 >
             </div>

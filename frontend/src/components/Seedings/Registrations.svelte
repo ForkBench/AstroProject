@@ -9,7 +9,6 @@
     let players: (Models.Player | null)[] = [];
     let filteredPlayers: (Models.Player | null)[] = [];
     let competition: Models.Competition | undefined;
-    var playerNumber = 0;
 
     SelectedCompetition.subscribe((value) => {
         competition = value;
@@ -265,7 +264,8 @@
                             on:click={async () => {
                                 var player = await GenerateRandomPlayer();
                                 if (player != null) {
-                                    player.PlayerInitialRank = ++playerNumber;
+                                    player.PlayerInitialRank =
+                                        players.length + 1;
                                 }
 
                                 if (competition != undefined)
