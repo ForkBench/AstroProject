@@ -32,6 +32,21 @@
         loadPlayers();
     });
 
+    // Lod the stage and competition
+    async function loadStageAndCompetition() {
+        if (competition === undefined) {
+            return;
+        }
+
+        await Session.GetCompetition(competition.CompetitionID).then(
+            (result) => {
+                if (result !== null) {
+                    SelectedCompetition.set(result);
+                }
+            }
+        );
+    }
+
     // Load the players from the selected competition
     async function loadPlayers() {
         if (competition === undefined) {
@@ -193,8 +208,24 @@
                         >
                             <td>
                                 <!-- TODO: input checkbox -->
+                                <!-- <input
+                                    type="checkbox"
+                                    checked={player.PlayerPresent}
+                                    on:change={async () => {
+                                        player.PlayerPresent =
+                                            !player.PlayerPresent;
+                                        if (competition != undefined)
+                                            await Session.UpdateCompetitionPlayer(
+                                                competition.CompetitionID,
+                                                player
+                                            ).then(() => {
+                                                loadPlayers();
+                                            });
+                                    }}
+                                /> -->
                             </td>
                             <td
+                                class="el first"
                                 on:dblclick={async () => {
                                     // Show a prompt to the user to change the rank
                                     let newRank = await swal({
@@ -239,6 +270,7 @@
                                 }}>{player.PlayerInitialRank}</td
                             >
                             <td
+                                class="el"
                                 on:dblclick={async () => {
                                     // Show a prompt to the user to change the lastname
                                     let newLastname = await swal({
@@ -270,6 +302,7 @@
                                 >{player.PlayerLastname.toLocaleUpperCase()}</td
                             >
                             <td
+                                class="el"
                                 on:dblclick={async () => {
                                     // Show a prompt to the user to change the firstname
                                     let newFirstname = await swal({
@@ -299,15 +332,15 @@
                                     }
                                 }}>{player.PlayerFirstname}</td
                             >
-                            <td
+                            <td class="el"
                                 >{#if player.PlayerClub}{player.PlayerClub
                                         .club_name}{:else}Sans Nom{/if}</td
                             >
-                            <td
+                            <td class="el"
                                 >{#if player.PlayerRegion}{player.PlayerRegion
                                         .region_name}{:else}Sans Nom{/if}</td
                             >
-                            <td class="flag-container"
+                            <td class="flag-container el last"
                                 ><img
                                     src={getNationFlag(player.PlayerNation)}
                                     alt="Player's flag : {getNationFlatAlt(
@@ -338,7 +371,7 @@
                                         stage?.SeedingStageID,
                                         player
                                     ).then(() => {
-                                        loadPlayers();
+                                        loadStageAndCompetition();
                                     });
                             }}
                         >
@@ -368,15 +401,15 @@
         border: solid 1px #003566;
     }
 
-    .gold {
+    .gold .el {
         background-color: #e9c46a;
     }
 
-    .silver {
+    .silver .el {
         background-color: #adb5bd;
     }
 
-    .bronze {
+    .bronze .el {
         background-color: #f28482;
     }
 

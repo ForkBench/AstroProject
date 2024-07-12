@@ -117,7 +117,7 @@ table {
 }
 
 th,
-td {
+.el {
     margin: 3px;
     padding-left: 20px;
     text-align: left;
@@ -128,24 +128,24 @@ tr {
     border-radius: 20px;
 }
 
-td:first-child,
+.first,
 th:first-child {
     border-left: none;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
 }
 
-td:last-child,
+.last,
 th:last-child {
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
 }
 
-tr:nth-child(even) {
+tr:nth-child(even) .el {
     background-color: #e9ecef;
 }
 
-tr:nth-child(odd) {
+tr:nth-child(odd) .el {
     background-color: #dee2e6;
 }
 
