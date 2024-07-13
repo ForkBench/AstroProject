@@ -45,7 +45,7 @@ The project is built using the following technologies:
 <details>
 <summary>Front-End</summary>
   <ul>
-    <li><a href="https://svelte.dev">Svelte</a></li>
+    <li><a href="https://templ.guide">~~Svelte~~ HTMX and Templ</a></li>
   </ul>
 </details>
 

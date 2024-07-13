@@ -45,3 +45,5 @@ __sapper__/
 
 # Frontend specific
 frontend/dist
+
+*.bak

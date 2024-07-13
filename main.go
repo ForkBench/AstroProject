@@ -13,6 +13,8 @@ var assets embed.FS
 
 func main() {
 
+	NewChiRouter()
+
 	session := services.Session{}
 
 	app := application.New(application.Options{
