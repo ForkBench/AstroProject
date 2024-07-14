@@ -1,4 +1,4 @@
-module changeme
+module astroproject
 
 go 1.22.4
 
