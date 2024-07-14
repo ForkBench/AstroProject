@@ -380,6 +380,7 @@ tasks:
               vars:
                   BUILD_FLAGS: "{{.BUILD_FLAGS}}"
         cmds:
+            - templ generate
             - bun run build
 
     generate:bindings:
@@ -434,6 +435,7 @@ tasks:
     dev:
         summary: Runs the application in development mode
         cmds:
+            - task: build:frontend
             - wails3 dev -config ./build/devmode.config.yaml -port {{.VITE_PORT}}
 
     dev:reload:

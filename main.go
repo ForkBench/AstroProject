@@ -3,6 +3,7 @@ package main
 import (
 	"embed"
 	"log"
+	"net/http"
 
 	"github.com/wailsapp/wails/v3/pkg/application"
 
@@ -13,7 +14,7 @@ var assets embed.FS
 
 func main() {
 
-	NewChiRouter()
+	r := NewChiRouter()
 
 	session := services.Session{}
 
@@ -29,6 +30,10 @@ func main() {
 		},
 		Assets: application.AssetOptions{
 			Handler: application.AssetFileServerFS(assets),
+			Middleware: func(next http.Handler) http.Handler {
+				r.NotFound(next.ServeHTTP)
+				return r
+			},
 		},
 		Mac: application.MacOptions{
 			ApplicationShouldTerminateAfterLastWindowClosed: true,

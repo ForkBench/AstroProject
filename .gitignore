@@ -47,3 +47,5 @@ __sapper__/
 frontend/dist
 
 *.bak
+*_templ.go
+*.out.css
