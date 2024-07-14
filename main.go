@@ -7,7 +7,7 @@ import (
 
 	"github.com/wailsapp/wails/v3/pkg/application"
 
-	"changeme/astro/services"
+	"astroproject/astro/services"
 )
 
 var assets embed.FS
