@@ -1,5 +1,7 @@
 package services
 
+import "fmt"
+
 const MinStageSize = 3
 
 // Session : Session details
@@ -8,7 +10,8 @@ type Session struct {
 	CompetitionNumber uint8
 }
 
-func (s *Session) AddCompetition(name string, category string, weapon string) {
+func (s *Session) AddCompetition(name string, category string, weapon string) bool {
+	fmt.Println("Adding competition")
 	competition := CreateCompetition(
 		s.CompetitionNumber,
 		name,
@@ -18,15 +21,19 @@ func (s *Session) AddCompetition(name string, category string, weapon string) {
 
 	s.Competitions = append(s.Competitions, &competition)
 	s.CompetitionNumber++
+
+	return true
 }
 
-func (s *Session) RemoveCompetition(competitionID uint8) {
+func (s *Session) RemoveCompetition(competitionID uint8) bool {
 	for i, competition := range s.Competitions {
 		if competition.CompetitionID == competitionID {
 			s.Competitions = append(s.Competitions[:i], s.Competitions[i+1:]...)
 		}
 	}
 	s.CompetitionNumber--
+
+	return true
 }
 
 func (s *Session) GetCompetitions() []Competition {
@@ -46,117 +53,9 @@ func (s *Session) GetCompetition(competitionID uint8) *Competition {
 	return nil
 }
 
-func (s *Session) AddPlayerToCompetition(competitionID uint8, player *Player) bool {
-	competition := s.GetCompetition(competitionID)
-	if competition == nil {
-		return false
+func (s *Session) GetLastCompetition() *Competition {
+	if len(s.Competitions) > 0 {
+		return s.Competitions[len(s.Competitions)-1]
 	}
-
-	if player == nil {
-		return false
-	}
-
-	// If player id is UINT16MAX, set it
-	var id uint16 = 0
-	for {
-		// Check if id is already taken
-		_, ok := competition.CompetitionPlayers[id]
-		if !ok {
-			break
-		}
-		id++
-	}
-
-	player.PlayerID = id
-
-	return competition.AddPlayer(player)
-}
-
-func (s *Session) RemovePlayerFromCompetition(competitionID uint8, player *Player) bool {
-	competition := s.GetCompetition(competitionID)
-	if competition == nil {
-		return false
-	}
-
-	return competition.RemovePlayer(player)
-}
-
-func (s *Session) GetAllPlayersFromCompetition(competitionID uint8) []*Player {
-	competition := s.GetCompetition(competitionID)
-	if competition == nil {
-		return []*Player{}
-	}
-
-	players := []*Player{}
-	for _, player := range competition.CompetitionPlayers {
-		players = append(players, player)
-	}
-	return players
-}
-
-func (s *Session) UpdateCompetitionPlayer(competitionID uint8, player *Player) bool {
-	competition := s.GetCompetition(competitionID)
-	if competition == nil {
-		return false
-	}
-
-	// TODO: Check if player is in competition
-
-	return competition.UpdatePlayer(player)
-}
-
-func (s *Session) GetStageKind(competitionID uint8, stageID uint8) StageKind {
-	competition := s.GetCompetition(competitionID)
-	if competition == nil {
-		return UNKNOWN
-	}
-
-	stage := competition.GetStage(stageID)
-	if stage == nil {
-		return UNKNOWN
-	}
-
-	return (*stage).GetKind()
-}
-
-func (s *Session) AddPlayerToCompetitionStage(competitionID uint8, stageID uint8, player *Player) bool {
-	competition := s.GetCompetition(competitionID)
-	if competition == nil {
-		return false
-	}
-
-	stage := competition.GetStage(stageID)
-	if stage == nil {
-		return false
-	}
-
-	return s.AddPlayerToCompetition(competitionID, player) && (*stage).AddPlayer(player)
-}
-
-func (s *Session) RemovePlayerFromCompetitionStage(competitionID uint8, stageID uint8, player *Player) bool {
-	competition := s.GetCompetition(competitionID)
-	if competition == nil {
-		return false
-	}
-
-	stage := competition.GetStage(stageID)
-	if stage == nil {
-		return false
-	}
-
-	return (*stage).RemovePlayer(player)
-}
-
-func (s *Session) GetPlayersFromCompetitionStage(competitionID uint8, stageID uint8) []*Player {
-	competition := s.GetCompetition(competitionID)
-	if competition == nil {
-		return []*Player{}
-	}
-
-	stage := competition.GetStage(stageID)
-	if stage == nil {
-		return []*Player{}
-	}
-
-	return (*stage).GetPlayers()
+	return nil
 }

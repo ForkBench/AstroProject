@@ -1,0 +1,35 @@
+package components
+
+import "astroproject/astro/services"
+
+templ CompetitionElement(competition *services.Competition) {
+	// Onclick, redirect to the competition page
+	<div class="competition text-blue-600 overline" hx-on:click={ Redirect(competition.CompetitionID) }>
+		{ competition.CompetitionName }
+	</div>
+}
+
+script Redirect(competitionID uint8) {
+	window.location.href = "/competition/" + competitionID
+}
+
+templ Nav(session *services.Session) {
+	<div
+		class="nav-bar"
+	>
+		<div class="competition-container">
+			for _, competition := range session.Competitions {
+				@CompetitionElement(competition)
+			}
+		</div>
+		<div class="competition-modifier">
+			<input
+				type="submit"
+				value="Add competition"
+				hx-post="/add-competition"
+				hx-target=".competition-container"
+				hx-swap="afterend"
+			/>
+		</div>
+	</div>
+}

@@ -380,7 +380,6 @@ tasks:
               vars:
                   BUILD_FLAGS: "{{.BUILD_FLAGS}}"
         cmds:
-            - templ generate
             - bun run build
 
     generate:bindings:
@@ -441,4 +440,5 @@ tasks:
     dev:reload:
         summary: Reloads the application
         cmds:
+            - templ generate
             - task: run

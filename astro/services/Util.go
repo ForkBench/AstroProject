@@ -1,5 +1,7 @@
 package services
 
+import "math/rand"
+
 // Category : Age category
 type Category uint8
 
@@ -126,4 +128,44 @@ func (s State) String() string {
 	default:
 		return "Unknown"
 	}
+}
+
+// RGB : RGB color
+type RGB struct {
+	R uint8
+	G uint8
+	B uint8
+}
+
+func NewRGB(r, g, b uint8) RGB {
+	return RGB{R: r, G: g, B: b}
+}
+
+func (c RGB) String() string {
+	return string(c.R) + ", " + string(c.G) + ", " + string(c.B)
+}
+
+// export function randomColor(brightness: number): string {
+//   function randomChannel(brightness: number): string {
+//     var r = 255-brightness;
+//     var n = 0|((Math.random() * r) + brightness);
+//     var s = n.toString(16);
+//     return (s.length==1) ? '0'+s : s;
+//   }
+//   return '#' + randomChannel(brightness) + randomChannel(brightness) + randomChannel(brightness);
+// }
+
+func RandomChannel(brightness uint8) string {
+	r := 255 - brightness
+	n := uint8(rand.Uint32())%r + brightness
+	s := string(n)
+	if len(s) == 1 {
+		return "0" + s
+	}
+	return s
+}
+
+// RandomColor : Generate a random color
+func RandomColor(brightness uint8) string {
+	return "#" + RandomChannel(brightness) + RandomChannel(brightness) + RandomChannel(brightness)
 }

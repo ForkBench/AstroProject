@@ -6,6 +6,7 @@ require (
 	github.com/a-h/templ v0.2.747
 	github.com/go-chi/chi/v5 v5.1.0
 	github.com/go-faker/faker/v4 v4.4.2
+	github.com/mavolin/go-htmx v1.0.0
 	github.com/wailsapp/wails/v3 v3.0.0-alpha.0
 )
 

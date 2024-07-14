@@ -1,0 +1,9 @@
+package pages
+
+import "astroproject/astro/services"
+
+templ CompetitionPage(competition *services.Competition) {
+	<h1>Competition Page</h1>
+	<h1>{ competition.CompetitionName }</h1>
+	<h2>{ competition.CompetitionCategory.String() }</h2>
+}
