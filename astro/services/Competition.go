@@ -1,5 +1,7 @@
 package services
 
+import "strconv"
+
 // Competition : Competition details
 type Competition struct {
 	CompetitionID             uint8 // 255 competitions max
@@ -14,10 +16,10 @@ type Competition struct {
 }
 
 func (c *Competition) String() string {
-	return "Competition : " + c.CompetitionName + " - " + c.CompetitionCategory.String() + " - " + c.CompetitionWeapon.String() + " - " + c.CompetitionState.String()
+	return "Competition : id:" + strconv.Itoa(int(c.CompetitionID)) + " - " + c.CompetitionName + " - " + c.CompetitionCategory.String() + " - " + c.CompetitionWeapon.String() + " - " + c.CompetitionState.String()
 }
 
-func CreateCompetition(competitionID uint8, competitionName string, competitionCategory Category, competitionWeapon Weapon, competitionMaxStageNumber uint8) Competition {
+func CreateCompetition(competitionID uint8, competitionName string, competitionCategory Category, competitionWeapon Weapon, competitionMaxStageNumber uint8) *Competition {
 	var c Competition
 
 	c.CompetitionID = competitionID
@@ -31,7 +33,7 @@ func CreateCompetition(competitionID uint8, competitionName string, competitionC
 
 	c.InitCompetition()
 
-	return c
+	return &c
 }
 
 func (c *Competition) InitCompetition() bool {

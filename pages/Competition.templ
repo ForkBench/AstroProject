@@ -1,9 +1,13 @@
 package pages
 
-import "astroproject/astro/services"
+import (
+	"astroproject/astro/services"
+	"strconv"
+)
 
 templ CompetitionPage(competition *services.Competition) {
 	<h1>Competition Page</h1>
+	<h1>->{ strconv.Itoa(int(competition.CompetitionID)) }</h1>
 	<h1>{ competition.CompetitionName }</h1>
 	<h2>{ competition.CompetitionCategory.String() }</h2>
 }

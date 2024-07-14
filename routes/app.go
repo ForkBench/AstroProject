@@ -7,6 +7,7 @@ import (
 	"github.com/a-h/templ"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-faker/faker/v4"
 
 	"astroproject/astro/services"
 	"astroproject/components"
@@ -28,9 +29,25 @@ func NewChiRouter(session *services.Session) *chi.Mux {
 	})
 
 	r.Post("/add-competition", func(w http.ResponseWriter, r *http.Request) {
-		if session.AddCompetition("Competition", "U20", "Foil") {
-			templ.Handler(components.CompetitionElement(session.GetLastCompetition())).ServeHTTP(w, r)
+		competition := session.AddCompetition(faker.FirstName(), "U20", "Foil")
+
+		if competition != nil {
+			templ.Handler(components.CompetitionElement(competition)).ServeHTTP(w, r)
 		}
+	})
+
+	r.Post("/delete-competition/{competitionID}", func(w http.ResponseWriter, r *http.Request) {
+		competitionIDStr := chi.URLParam(r, "competitionID")
+		competitionID, err := strconv.ParseUint(competitionIDStr, 10, 8)
+		if err != nil {
+			// Return a 404.
+			http.NotFound(w, r)
+		}
+
+		session.RemoveCompetition(uint8(competitionID))
+
+		// Return a 200.
+		w.WriteHeader(http.StatusOK)
 	})
 
 	r.Get("/competition/{competitionID}", func(w http.ResponseWriter, r *http.Request) {

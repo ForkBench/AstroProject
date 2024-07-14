@@ -15,8 +15,10 @@ var assets embed.FS
 
 func main() {
 
-	session := services.Session{}
-	session.AddCompetition("Competition 1", "U7", "Foil")
+	session := services.Session{
+		CompetitionNumber: 0,
+		Competitions:      map[uint8]*services.Competition{},
+	}
 	r := routes.NewChiRouter(&session)
 
 	app := application.New(application.Options{
