@@ -77,7 +77,6 @@ tasks:
         summary: Creates a production build of the application
         deps:
             - task: go:mod:tidy
-            - task: build:frontend
               vars:
                   BUILD_FLAGS: "{{.BUILD_FLAGS}}"
             - task: generate:icons
@@ -130,7 +129,6 @@ tasks:
         summary: Builds the application for Linux
         deps:
             - task: go:mod:tidy
-            - task: build:frontend
               vars:
                   BUILD_FLAGS: "{{.BUILD_FLAGS}}"
             - task: generate:icons
@@ -352,11 +350,6 @@ tasks:
             # Generates both .ico and .icns files
             - wails3 generate icons -input appicon.png
 
-    build:frontend:
-        summary: Build the frontend project
-        cmds:
-            - templ generate
-
     go:mod:tidy:
         summary: Runs `go mod tidy`
         internal: true
@@ -394,5 +387,4 @@ tasks:
     dev:reload:
         summary: Reloads the application
         cmds:
-            - templ generate
             - task: run

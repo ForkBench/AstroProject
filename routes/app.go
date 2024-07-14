@@ -20,6 +20,9 @@ func NewChiRouter(session *services.Session) *chi.Mux {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
+	// Serve static files.
+	r.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		HXRender(w, r, pages.HomePage(), session)
 	})

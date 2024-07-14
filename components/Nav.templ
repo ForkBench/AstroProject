@@ -4,8 +4,9 @@ import "astroproject/astro/services"
 
 templ CompetitionElement(competition *services.Competition) {
 	// Onclick, redirect to the competition page
-	<div class="competition text-blue-600 overline" hx-on:click={ Redirect(competition.CompetitionID) }>
-		{ competition.CompetitionName }
+	<div class="competition-el" hx-on:click={ Redirect(competition.CompetitionID) }>
+		<span>{ competition.CompetitionName }</span>
+		<button>X</button>
 	</div>
 }
 
@@ -23,13 +24,12 @@ templ Nav(session *services.Session) {
 			}
 		</div>
 		<div class="competition-modifier">
-			<input
+			<button
 				type="submit"
-				value="Add competition"
 				hx-post="/add-competition"
 				hx-target=".competition-container"
-				hx-swap="afterend"
-			/>
+				hx-swap="beforeend"
+			>Add competition</button>
 		</div>
 	</div>
 }
