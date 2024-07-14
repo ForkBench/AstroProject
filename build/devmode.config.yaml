@@ -16,8 +16,6 @@ config:
             - "*.go"
         git_ignore: true
     executes:
-        - cmd: wails3 task dev:frontend
-          type: background
         - cmd: go mod tidy
           type: blocking
         - cmd: wails3 task build

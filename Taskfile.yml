@@ -25,7 +25,6 @@ tasks:
         summary: Builds the application for Windows
         deps:
             - task: go:mod:tidy
-            - task: build:frontend
               vars:
                   BUILD_FLAGS: "{{.BUILD_FLAGS}}"
             - task: generate:icons
@@ -78,7 +77,6 @@ tasks:
         summary: Creates a production build of the application
         deps:
             - task: go:mod:tidy
-            - task: build:frontend
               vars:
                   BUILD_FLAGS: "{{.BUILD_FLAGS}}"
             - task: generate:icons
@@ -353,46 +351,10 @@ tasks:
             # Generates both .ico and .icns files
             - wails3 generate icons -input appicon.png
 
-    install:frontend:deps:
-        summary: Install frontend dependencies
-        dir: frontend
-        sources:
-            - package.json
-            - package-lock.json
-        generates:
-            - node_modules/*
-        preconditions:
-            - sh: bun -v
-              msg: "Looks like bun isn't installed. Bun is part of the bun installer: curl -fsSL https://bun.sh/install | bash"
-        cmds:
-            - bun install
-
     build:frontend:
         summary: Build the frontend project
-        dir: frontend
-        sources:
-            - "**/*"
-        generates:
-            - dist/*
-        deps:
-            - install:frontend:deps
-            - task: generate:bindings
-              vars:
-                  BUILD_FLAGS: "{{.BUILD_FLAGS}}"
         cmds:
-            - bun run build
-
-    generate:bindings:
-        summary: Generates bindings for the frontend
-        sources:
-            - "**/*.go"
-            - go.mod
-            - go.sum
-        generates:
-            - "frontend/bindings/**/*"
-        cmds:
-            # For a complete list of options, run `wails3 generate bindings -help`
-            - wails3 generate bindings -f '{{.BUILD_FLAGS}}' -ts
+            - templ generate
 
     go:mod:tidy:
         summary: Runs `go mod tidy`
@@ -423,18 +385,9 @@ tasks:
         cmds:
             - "{{.BIN_DIR}}/{{.APP_NAME}}"
 
-    dev:frontend:
-        summary: Runs the frontend in development mode
-        dir: frontend
-        deps:
-            - task: install:frontend:deps
-        cmds:
-            - bun run dev -- --port {{.VITE_PORT}} --strictPort
-
     dev:
         summary: Runs the application in development mode
         cmds:
-            - task: build:frontend
             - wails3 dev -config ./build/devmode.config.yaml -port {{.VITE_PORT}}
 
     dev:reload:
