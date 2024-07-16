@@ -1,0 +1,32 @@
+package components
+
+import (
+	"astroproject/astro/services"
+	"strconv"
+)
+
+templ PlayerElement(player *services.Player) {
+	<div class="seeding-el">
+		<span>{ strconv.Itoa(int(player.PlayerInitialRank)) }</span>
+		<span>{ player.String() }</span>
+	</div>
+}
+
+templ DisplaySeedings(competition *services.Competition, seeding *services.SeedingStage) {
+	<div class="seedings">
+		<h1>Seedings</h1>
+		<div class="seedings-container">
+			for _, Seeding := range seeding.SeedingSeedings {
+				@PlayerElement(Seeding.SeedingPlayer)
+			}
+		</div>
+		<button
+			type="button"
+			hx-post={ "/competition/" + strconv.Itoa(int(competition.CompetitionID)) + "/stage/" + strconv.Itoa(int(seeding.GetID())) + "/player" }
+			hx-target=".seedings-container"
+			hx-swap="beforeend"
+		>
+			Add Player
+		</button>
+	</div>
+}

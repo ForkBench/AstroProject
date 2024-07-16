@@ -48,6 +48,11 @@ func (c *Competition) InitCompetition() bool {
 	seedingStage.Register()
 	c.AddStage(seedingStage)
 
+	// Add 10 random players
+	for i := 0; i < 10; i++ {
+		c.AddPlayer(GenerateRandomPlayer())
+	}
+
 	c.CompetitionCurrentStageID = 0
 
 	return true
@@ -69,7 +74,6 @@ func (c *Competition) FinishCompetition() bool {
 	}
 
 	// TODO: Implement competition results
-
 	c.CompetitionState = FINISHED
 
 	return true
@@ -100,11 +104,11 @@ func (c *Competition) RemovePlayer(player *Player) bool {
 }
 
 func (c *Competition) AddPlayerToStage(player Player, stage Stage) bool {
-	return stage.AddPlayer(&player)
+	return (*c.CompetitionStages[stage.GetID()]).AddPlayer(&player)
 }
 
 func (c *Competition) RemovePlayerFromStage(player Player, stage Stage) bool {
-	return stage.RemovePlayer(&player)
+	return (*c.CompetitionStages[stage.GetID()]).RemovePlayer(&player)
 }
 
 func (c *Competition) UpdatePlayer(player *Player) bool {

@@ -10,10 +10,9 @@ templ CompetitionElement(competition *services.Competition) {
 	<div class="competition-el">
 		<span hx-on:click={ Redirect(competition.CompetitionID) }>{ competition.CompetitionName }</span>
 		<button
-			hx-post={ fmt.Sprintf("/delete-competition/%d", competition.CompetitionID) }
+			hx-delete={ fmt.Sprintf("/competition/%d", competition.CompetitionID) }
 			hx-target="closest .competition-el"
 			hx-swap="delete"
-			class="rounded-full border border-indigo-600 bg-indigo-600 p-3 text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500 aspect-square"
 			hx-on:click={ RedirectHome() }
 		>X</button>
 	</div>
@@ -39,10 +38,9 @@ templ Nav(session *services.Session) {
 		<div class="competition-modifier">
 			<button
 				type="submit"
-				hx-post="/add-competition"
+				hx-post="/competition"
 				hx-target=".competition-container"
 				hx-swap="beforeend"
-				class="rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
 			>Add competition</button>
 		</div>
 	</div>

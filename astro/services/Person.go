@@ -43,9 +43,9 @@ func (r Referee) String() string {
 	return "Referee : " + r.RefereeFirstname + " " + r.RefereeLastname
 }
 
-func (p *Player) GenerateRandomPlayer() *Player {
+func GenerateRandomPlayer() *Player {
 	return &Player{
-		PlayerID:          65535,
+		PlayerID:          uint16(rand.Uint32()),
 		PlayerFirstname:   faker.FirstName(),
 		PlayerLastname:    faker.LastName(),
 		PlayerClub:        GenerateClub(),

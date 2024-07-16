@@ -1,0 +1,56 @@
+package components
+
+import (
+	"astroproject/astro/services"
+	"strconv"
+)
+
+templ StageElement(stage *services.Stage, competition *services.Competition) {
+	if (*stage).GetKind() == services.REGISTRATIONS {
+		// TODO: Refactor
+		<img
+			src="/static/img/seedings.png"
+			class="stage-logo"
+			id="seedings"
+			hx-get={ "/competition/" + strconv.Itoa(int(competition.CompetitionID)) + "/stage/" + strconv.Itoa(int((*stage).GetID())) }
+			hx-target="#stage-content"
+			hx-swap="innerHTML"
+			hx-trigger="click"
+		/>
+	} else if (*stage).GetKind() == services.POOLS {
+		<img
+			src="/static/img/pool.png"
+			class="stage-logo"
+			hx-get={ "/competition/" + strconv.Itoa(int(competition.CompetitionID)) + "/stage/" + strconv.Itoa(int((*stage).GetID())) }
+			hx-target="#stage-content"
+			hx-swap="outerHTML"
+			hx-trigger="click"
+		/>
+	} else if (*stage).GetKind() == services.DIRECTELIMINATION {
+		<img
+			src="/static/img/table.png"
+			class="stage-logo"
+			hx-get={ "/competition/" + strconv.Itoa(int(competition.CompetitionID)) + "/stage/" + strconv.Itoa(int((*stage).GetID())) }
+			hx-target="#stage-content"
+			hx-swap="outerHTML"
+			hx-trigger="click"
+		/>
+	} else {
+		<img
+			src="/static/img/ranking.png"
+			class="stage-logo"
+			hx-get={ "/competition/" + strconv.Itoa(int(competition.CompetitionID)) + "/stage/" + strconv.Itoa(int((*stage).GetID())) }
+			hx-target="#stage-content"
+			hx-swap="outerHTML"
+			hx-trigger="click"
+		/>
+	}
+}
+
+templ LeftNav(competition *services.Competition) {
+	<div class="left-nav">
+		for _, stage := range competition.CompetitionStages {
+			@StageElement(stage, competition)
+		}
+	</div>
+}

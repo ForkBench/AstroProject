@@ -2,12 +2,43 @@ package pages
 
 import (
 	"astroproject/astro/services"
-	"strconv"
+	"astroproject/components"
 )
 
 templ CompetitionPage(competition *services.Competition) {
-	<h1>Competition Page</h1>
-	<h1>->{ strconv.Itoa(int(competition.CompetitionID)) }</h1>
-	<h1>{ competition.CompetitionName }</h1>
-	<h2>{ competition.CompetitionCategory.String() }</h2>
+	@CompetitionPageCSS()
+	<div class="content">
+		@components.LeftNav(competition)
+		<div id="stage-content">
+			<h1>{ competition.CompetitionName }</h1>
+		</div>
+	</div>
+}
+
+templ CompetitionPageCSS() {
+	<style>
+		.content {
+			display: grid;
+			grid-template-columns: auto 1fr;
+		}
+
+		.left-nav {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+			justify-content: center;
+            width: 100px;
+            gap: 20px;
+        }
+
+		#stage-content {
+			padding: 20px;
+		}
+
+        .stage-logo {
+            width: 50px;
+            height: 50px;
+            margin: 10px;
+        }
+	</style>
 }

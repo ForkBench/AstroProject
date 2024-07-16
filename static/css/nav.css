@@ -27,3 +27,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
+.selected-competition {
+    background: #e9c46a;
+}
