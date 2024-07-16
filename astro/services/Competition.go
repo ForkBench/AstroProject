@@ -12,6 +12,7 @@ type Competition struct {
 	CompetitionMaxStageNumber uint8
 	CompetitionStages         map[uint8]*Stage
 	CompetitionPlayers        map[uint16]*Player
+	CompetitionPlayerNumber   uint16
 	CompetitionCurrentStageID uint8
 }
 
@@ -30,6 +31,7 @@ func CreateCompetition(competitionID uint8, competitionName string, competitionC
 	c.CompetitionMaxStageNumber = competitionMaxStageNumber
 	c.CompetitionStages = map[uint8]*Stage{}
 	c.CompetitionPlayers = map[uint16]*Player{}
+	c.CompetitionPlayerNumber = 0
 
 	c.InitCompetition()
 
@@ -47,11 +49,6 @@ func (c *Competition) InitCompetition() bool {
 
 	seedingStage.Register()
 	c.AddStage(seedingStage)
-
-	// Add 10 random players
-	for i := 0; i < 10; i++ {
-		c.AddPlayer(GenerateRandomPlayer())
-	}
 
 	c.CompetitionCurrentStageID = 0
 
@@ -86,6 +83,8 @@ func (c *Competition) AddPlayer(player *Player) bool {
 
 	c.CompetitionPlayers[player.PlayerID] = player
 
+	c.CompetitionPlayerNumber++
+
 	return true
 }
 
@@ -99,6 +98,8 @@ func (c *Competition) RemovePlayer(player *Player) bool {
 	}
 
 	delete(c.CompetitionPlayers, player.PlayerID)
+
+	c.CompetitionPlayerNumber--
 
 	return true
 }

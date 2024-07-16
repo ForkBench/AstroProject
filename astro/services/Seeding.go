@@ -1,6 +1,6 @@
 package services
 
-// Seeding : Seeding details
+// Seeding : Seeding details TODO: Remove
 type Seeding struct {
 	SeedingPosition      uint16
 	SeedingPlayer        *Player

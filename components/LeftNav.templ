@@ -8,6 +8,7 @@ import (
 templ StageElement(stage *services.Stage, competition *services.Competition) {
 	if (*stage).GetKind() == services.REGISTRATIONS {
 		// TODO: Refactor
+		// TODO: Make it as high as the user (sticky)
 		<img
 			src="/static/img/seedings.png"
 			class="stage-logo"

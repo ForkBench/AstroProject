@@ -17,6 +17,7 @@ import (
 
 // NewChiRouter creates a new chi router.
 func NewChiRouter(session *services.Session) *chi.Mux {
+
 	r := chi.NewRouter()
 
 	logger := httplog.NewLogger("astro-logger", httplog.Options{
@@ -129,10 +130,6 @@ func NewChiRouter(session *services.Session) *chi.Mux {
 
 					switch stageKind {
 					case services.REGISTRATIONS:
-						for _, player := range (*stage).(*services.SeedingStage).SeedingSeedings {
-							println(player.SeedingPlayer.PlayerFirstname)
-						}
-
 						HXRender(w, r, components.DisplaySeedings(competition, (*stage).(*services.SeedingStage)), session)
 						// 303 See Other.
 						w.WriteHeader(http.StatusSeeOther)
@@ -165,10 +162,21 @@ func NewChiRouter(session *services.Session) *chi.Mux {
 						competition := session.GetCompetition(uint8(competition_id))
 						stage := competition.GetStage(uint8(stage_id))
 
+						if (*stage).GetKind() != services.REGISTRATIONS {
+							// Status Not Found.
+							w.WriteHeader(http.StatusNotFound)
+							return
+						}
+
+						seedingStage := (*stage).(*services.SeedingStage)
+
 						player := services.GenerateRandomPlayer()
 
-						if (*stage).AddPlayer(player) {
-							HXRender(w, r, components.PlayerElement(player), session)
+						player.PlayerInitialRank = competition.CompetitionPlayerNumber + 1
+
+						// TODO: Remove competition.AddPlayer
+						if competition.AddPlayer(player) && (seedingStage).AddPlayer(player) {
+							HXRender(w, r, components.PlayerElement(seedingStage.SeedingSeedings[player.PlayerID]), session)
 
 							// 303 See Other.
 							w.WriteHeader(http.StatusSeeOther)
