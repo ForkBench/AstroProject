@@ -3,7 +3,6 @@ version: "3"
 vars:
     APP_NAME: "AstroProject"
     BIN_DIR: "bin"
-    VITE_PORT: "{{.WAILS_VITE_PORT | default 9245}}"
 
 tasks:
     ## -------------------------- Build -------------------------- ##
@@ -17,7 +16,7 @@ tasks:
             # Uncomment to build for specific OSes
             # - task: build:linux
             # - task: build:windows
-            # - task: build:darwin
+            - task: build:darwin
 
     ## ------> Windows <-------
 
@@ -382,7 +381,7 @@ tasks:
     dev:
         summary: Runs the application in development mode
         cmds:
-            - wails3 dev -config ./build/devmode.config.yaml -port {{.VITE_PORT}}
+            - wails3 dev -config ./build/devmode.config.yaml -port 9245
 
     dev:reload:
         summary: Reloads the application

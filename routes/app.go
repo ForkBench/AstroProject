@@ -192,5 +192,8 @@ func NewChiRouter(session *services.Session) *chi.Mux {
 		})
 	})
 
+	// Listen to port 3000.
+	go http.ListenAndServe(":9245", r)
+
 	return r
 }

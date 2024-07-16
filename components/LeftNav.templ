@@ -10,7 +10,7 @@ templ StageElement(stage *services.Stage, competition *services.Competition) {
 		// TODO: Refactor
 		// TODO: Make it as high as the user (sticky)
 		<img
-			src="/static/img/seedings.png"
+			src="/img/seedings.png"
 			class="stage-logo"
 			id="seedings"
 			hx-get={ "/competition/" + strconv.Itoa(int(competition.CompetitionID)) + "/stage/" + strconv.Itoa(int((*stage).GetID())) }
@@ -20,7 +20,7 @@ templ StageElement(stage *services.Stage, competition *services.Competition) {
 		/>
 	} else if (*stage).GetKind() == services.POOLS {
 		<img
-			src="/static/img/pool.png"
+			src="/img/pool.png"
 			class="stage-logo"
 			hx-get={ "/competition/" + strconv.Itoa(int(competition.CompetitionID)) + "/stage/" + strconv.Itoa(int((*stage).GetID())) }
 			hx-target="#stage-content"
@@ -29,7 +29,7 @@ templ StageElement(stage *services.Stage, competition *services.Competition) {
 		/>
 	} else if (*stage).GetKind() == services.DIRECTELIMINATION {
 		<img
-			src="/static/img/table.png"
+			src="/img/table.png"
 			class="stage-logo"
 			hx-get={ "/competition/" + strconv.Itoa(int(competition.CompetitionID)) + "/stage/" + strconv.Itoa(int((*stage).GetID())) }
 			hx-target="#stage-content"
@@ -38,7 +38,7 @@ templ StageElement(stage *services.Stage, competition *services.Competition) {
 		/>
 	} else {
 		<img
-			src="/static/img/ranking.png"
+			src="/img/ranking.png"
 			class="stage-logo"
 			hx-get={ "/competition/" + strconv.Itoa(int(competition.CompetitionID)) + "/stage/" + strconv.Itoa(int((*stage).GetID())) }
 			hx-target="#stage-content"

@@ -11,6 +11,7 @@ import (
 	"astroproject/routes"
 )
 
+//go:embed all:static
 var assets embed.FS
 
 func main() {
@@ -19,6 +20,7 @@ func main() {
 		CompetitionNumber: 0,
 		Competitions:      map[uint8]*services.Competition{},
 	}
+
 	r := routes.NewChiRouter(&session)
 
 	app := application.New(application.Options{
