@@ -1,0 +1,25 @@
+package components
+
+import "astroproject/astro/services"
+
+templ Head() {
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<title>AstroProject</title>
+		<link rel="stylesheet" href="/static/css/main.css"/>
+		<link rel="stylesheet" href="/static/css/nav.css"/>
+		<script src="https://unpkg.com/htmx.org"></script>
+	</head>
+}
+
+templ Page(contents templ.Component, session *services.Session) {
+	<!DOCTYPE html>
+	<html>
+		@Head()
+		<body>
+			@Nav(session)
+			@contents
+		</body>
+	</html>
+}

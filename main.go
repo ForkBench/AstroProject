@@ -3,30 +3,35 @@ package main
 import (
 	"embed"
 	"log"
+	"net/http"
 
 	"github.com/wailsapp/wails/v3/pkg/application"
 
 	"astroproject/astro/services"
+	"astroproject/routes"
 )
 
+//go:embed all:static
 var assets embed.FS
 
 func main() {
 
-	session := services.Session{}
+	session := services.Session{
+		CompetitionNumber: 0,
+		Competitions:      map[uint8]*services.Competition{},
+	}
+
+	r := routes.NewChiRouter(&session)
 
 	app := application.New(application.Options{
 		Name:        "AstroProject",
 		Description: "A demo of using raw HTML & CSS",
-		Services: []application.Service{
-			application.NewService(&session),
-			application.NewService(&services.Competition{}),
-			application.NewService(&services.Club{}),
-			application.NewService(&services.Pool{}),
-			application.NewService(&services.Player{}),
-		},
 		Assets: application.AssetOptions{
 			Handler: application.AssetFileServerFS(assets),
+			Middleware: func(next http.Handler) http.Handler {
+				r.NotFound(next.ServeHTTP)
+				return r
+			},
 		},
 		Mac: application.MacOptions{
 			ApplicationShouldTerminateAfterLastWindowClosed: true,
@@ -36,9 +41,7 @@ func main() {
 	app.NewWebviewWindowWithOptions(application.WebviewWindowOptions{
 		Title: "AstroProject",
 		Mac: application.MacWindow{
-			InvisibleTitleBarHeight: 50,
-			Backdrop:                application.MacBackdropTranslucent,
-			TitleBar:                application.MacTitleBarHiddenInset,
+			Backdrop: application.MacBackdropTranslucent,
 		},
 		BackgroundColour: application.NewRGB(27, 38, 54),
 		URL:              "/",

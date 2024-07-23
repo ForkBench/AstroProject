@@ -238,6 +238,11 @@ func (p *PoolStage) GetPool(poolID uint8) *Pool {
 	return nil
 }
 
+// From interface
+func (p *PoolStage) GetKind() StageKind {
+	return POOLS
+}
+
 // ------------------------------ Pool ------------------------------
 func (p Pool) PlayerPosition(player *Player) uint16 {
 	_, ok := p.PoolPlayers[player.PlayerID]

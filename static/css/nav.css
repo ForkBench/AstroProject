@@ -1,0 +1,33 @@
+.nav-bar {
+    padding: 25px 10px 25px;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    gap: 10px;
+    border-bottom: solid #003566 3px;
+}
+
+.competition-container {
+    display: grid;
+    overflow-x: scroll;
+    grid-auto-flow: column;
+    gap: 10px;
+}
+
+.competition-modifier {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.competition-el {
+    min-width: 20vw;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.selected-competition {
+    background: #e9c46a;
+}

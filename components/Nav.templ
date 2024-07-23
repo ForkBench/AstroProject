@@ -1,0 +1,47 @@
+package components
+
+import (
+	"astroproject/astro/services"
+	"fmt"
+)
+
+templ CompetitionElement(competition *services.Competition) {
+	// Onclick, redirect to the competition page
+	<div class="competition-el">
+		<span hx-on:click={ Redirect(competition.CompetitionID) }>{ competition.CompetitionName }</span>
+		<button
+			hx-delete={ fmt.Sprintf("/competition/%d", competition.CompetitionID) }
+			hx-target="closest .competition-el"
+			hx-swap="delete"
+			hx-on:click={ RedirectHome() }
+		>X</button>
+	</div>
+}
+
+script Redirect(competitionID uint8) {
+	window.location.href = "/competition/" + competitionID
+}
+
+script RedirectHome() {
+	window.location.href = "/"
+}
+
+templ Nav(session *services.Session) {
+	<div
+		class="nav-bar"
+	>
+		<div class="competition-container">
+			for _, competition := range session.Competitions {
+				@CompetitionElement(competition)
+			}
+		</div>
+		<div class="competition-modifier">
+			<button
+				type="submit"
+				hx-post="/competition"
+				hx-target=".competition-container"
+				hx-swap="beforeend"
+			>Add competition</button>
+		</div>
+	</div>
+}

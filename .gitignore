@@ -45,3 +45,7 @@ __sapper__/
 
 # Frontend specific
 frontend/dist
+
+*.bak
+*_templ.go
+*.out.css

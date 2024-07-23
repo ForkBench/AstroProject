@@ -1,5 +1,7 @@
 package services
 
+import "strconv"
+
 // Competition : Competition details
 type Competition struct {
 	CompetitionID             uint8 // 255 competitions max
@@ -10,14 +12,15 @@ type Competition struct {
 	CompetitionMaxStageNumber uint8
 	CompetitionStages         map[uint8]*Stage
 	CompetitionPlayers        map[uint16]*Player
+	CompetitionPlayerNumber   uint16
 	CompetitionCurrentStageID uint8
 }
 
 func (c *Competition) String() string {
-	return "Competition : " + c.CompetitionName + " - " + c.CompetitionCategory.String() + " - " + c.CompetitionWeapon.String() + " - " + c.CompetitionState.String()
+	return "Competition : id:" + strconv.Itoa(int(c.CompetitionID)) + " - " + c.CompetitionName + " - " + c.CompetitionCategory.String() + " - " + c.CompetitionWeapon.String() + " - " + c.CompetitionState.String()
 }
 
-func CreateCompetition(competitionID uint8, competitionName string, competitionCategory Category, competitionWeapon Weapon, competitionMaxStageNumber uint8) Competition {
+func CreateCompetition(competitionID uint8, competitionName string, competitionCategory Category, competitionWeapon Weapon, competitionMaxStageNumber uint8) *Competition {
 	var c Competition
 
 	c.CompetitionID = competitionID
@@ -28,10 +31,11 @@ func CreateCompetition(competitionID uint8, competitionName string, competitionC
 	c.CompetitionMaxStageNumber = competitionMaxStageNumber
 	c.CompetitionStages = map[uint8]*Stage{}
 	c.CompetitionPlayers = map[uint16]*Player{}
+	c.CompetitionPlayerNumber = 0
 
 	c.InitCompetition()
 
-	return c
+	return &c
 }
 
 func (c *Competition) InitCompetition() bool {
@@ -67,7 +71,6 @@ func (c *Competition) FinishCompetition() bool {
 	}
 
 	// TODO: Implement competition results
-
 	c.CompetitionState = FINISHED
 
 	return true
@@ -79,6 +82,8 @@ func (c *Competition) AddPlayer(player *Player) bool {
 	}
 
 	c.CompetitionPlayers[player.PlayerID] = player
+
+	c.CompetitionPlayerNumber++
 
 	return true
 }
@@ -94,15 +99,17 @@ func (c *Competition) RemovePlayer(player *Player) bool {
 
 	delete(c.CompetitionPlayers, player.PlayerID)
 
+	c.CompetitionPlayerNumber--
+
 	return true
 }
 
 func (c *Competition) AddPlayerToStage(player Player, stage Stage) bool {
-	return stage.AddPlayer(&player)
+	return (*c.CompetitionStages[stage.GetID()]).AddPlayer(&player)
 }
 
 func (c *Competition) RemovePlayerFromStage(player Player, stage Stage) bool {
-	return stage.RemovePlayer(&player)
+	return (*c.CompetitionStages[stage.GetID()]).RemovePlayer(&player)
 }
 
 func (c *Competition) UpdatePlayer(player *Player) bool {

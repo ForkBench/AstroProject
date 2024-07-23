@@ -7,7 +7,7 @@ type Stage interface {
 	RemovePlayer(player *Player) bool
 	GetID() uint8
 	GetState() State
-	GetKind() StageKind // TODO: Implement in pools
+	GetKind() StageKind
 	GetPlayers() []*Player
 	Register() bool
 	Start() bool

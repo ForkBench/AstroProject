@@ -45,7 +45,8 @@ The project is built using the following technologies:
 <details>
 <summary>Front-End</summary>
   <ul>
-    <li><a href="https://svelte.dev">Svelte</a></li>
+    <li><a href="https://templ.guide">Templ</a></li>
+    <li><a href="https://htmx.org">HTMX</a></li>
   </ul>
 </details>
 
@@ -68,7 +69,6 @@ To get a local copy up and running, follow these steps.
 In order to run this project you need:
 
 - [Go](https://golang.org/dl/)
-- [Node.js](https://nodejs.org/en/download/)
 - [WailsV3](https://v3alpha.wails.io/getting-started/installation/)
 
 ### Setup

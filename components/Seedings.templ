@@ -1,0 +1,147 @@
+package components
+
+import (
+	"astroproject/astro/services"
+	"strconv"
+)
+
+func GetSeedingClass(playerSeeding *services.Seeding) string {
+	if playerSeeding.SeedingPlayer.PlayerInitialRank == 1 {
+		return "gold"
+	} else if playerSeeding.SeedingPlayer.PlayerInitialRank == 2 {
+		return "silver"
+	} else if playerSeeding.SeedingPlayer.PlayerInitialRank == 3 {
+		return "bronze"
+	} else {
+		return ""
+	}
+}
+
+templ PlayerElement(playerSeeding *services.Seeding) {
+	<tr class={ GetSeedingClass(playerSeeding) }>
+		<td>
+			// Presence
+			<input
+				type="checkbox"
+				checked={ strconv.FormatBool(playerSeeding.SeedingPlayerPresent) }
+			/>
+		</td>
+		<td class="seeding-el first">
+			{ strconv.Itoa(int(playerSeeding.SeedingPlayer.PlayerInitialRank)) }
+		</td>
+		<td class="seeding-el">{ playerSeeding.SeedingPlayer.PlayerLastname }</td>
+		<td class="seeding-el">{ playerSeeding.SeedingPlayer.PlayerFirstname }</td>
+		<td class="seeding-el">{ playerSeeding.SeedingPlayer.PlayerClub.ClubName }</td>
+		<td class="seeding-el">{ playerSeeding.SeedingPlayer.PlayerRegion.RegionName }</td>
+		<td class="seeding-el last">{ playerSeeding.SeedingPlayer.PlayerNation.NationName }</td>
+	</tr>
+}
+
+templ DisplaySeedings(competition *services.Competition, seeding *services.SeedingStage) {
+	@SeedingsCSS()
+	<div class="seedings">
+		<table>
+			<thead>
+				<tr>
+					<!-- 
+                    The following code is used to sort the players by the column clicked.                    
+                    -->
+					<th>Present</th>
+					<th>Rank</th>
+					<th>Lastname</th>
+					<th>Firstname</th>
+					<th>Club</th>
+					<th>Region</th>
+					<th>Country</th>
+				</tr>
+			</thead>
+			<tbody class="seedings-container">
+				for _, Seeding := range seeding.SeedingSeedings {
+					@PlayerElement(Seeding)
+				}
+			</tbody>
+		</table>
+		<button
+			type="button"
+			hx-post={ "/competition/" + strconv.Itoa(int(competition.CompetitionID)) + "/stage/" + strconv.Itoa(int(seeding.GetID())) + "/player" }
+			hx-target=".seedings-container"
+			hx-swap="beforeend"
+		>
+			Add Player
+		</button>
+	</div>
+}
+
+templ SeedingsCSS() {
+	<style>
+		.seedings {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		table {
+			font-size: small;
+			width: 70%;
+			border-collapse: separate;
+			border-spacing: 0 20px;
+		}
+
+		th,
+		.seeding-el {
+			margin: 3px;
+			padding-left: 20px;
+			text-align: left;
+			border-left: dashed rgba(119, 141, 169, 30%) 3px;
+		}
+
+
+		tr {
+			border-radius: 20px;
+		}
+
+		.first,
+		th:first-child {
+			border-left: none;
+			border-top-left-radius: 20px;
+			border-bottom-left-radius: 20px;
+		}
+
+		.last,
+		th:last-child {
+			border-top-right-radius: 20px;
+			border-bottom-right-radius: 20px;
+		}
+
+		tr:nth-child(even) .seeding-el {
+			background-color: #e9ecef;
+		}
+
+		tr:nth-child(odd) .seeding-el {
+			background-color: #dee2e6;
+		}
+
+		tr:last-child {
+			background: none;
+		}
+
+		th {
+			background-color: #f8f9fa;
+			cursor: pointer;
+		}
+
+		.gold .seeding-el {
+			background-color: #e9c46a !important;
+		}
+
+		.silver .seeding-el {
+			background-color: #adb5bd !important;
+		}
+
+		.bronze .seeding-el {
+			background-color: #f28482 !important;
+		}
+	</style>
+}
