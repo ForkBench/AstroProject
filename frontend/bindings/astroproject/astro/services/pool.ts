@@ -10,7 +10,7 @@ import {Call as $Call, Create as $Create} from "@wailsio/runtime";
 import * as $models from "./models.js";
 
 export function AddPlayer(player: $models.Player | null): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(2419770436, player) as any;
+    let $resultPromise = $Call.ByID(3801206274, player) as any;
     return $resultPromise;
 }
 
@@ -18,21 +18,21 @@ export function AddPlayer(player: $models.Player | null): Promise<boolean> & { c
  * ------------------------------ Pool ------------------------------
  */
 export function PlayerPosition(player: $models.Player | null): Promise<number> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(199697208, player) as any;
+    let $resultPromise = $Call.ByID(4093503434, player) as any;
     return $resultPromise;
 }
 
 export function RemovePlayer(player: $models.Player | null): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(2585363663, player) as any;
+    let $resultPromise = $Call.ByID(85973069, player) as any;
     return $resultPromise;
 }
 
 export function SetReferee(referee: $models.Referee | null): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(1520561734, referee) as any;
+    let $resultPromise = $Call.ByID(3649766588, referee) as any;
     return $resultPromise;
 }
 
 export function String(): Promise<string> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(2027138107) as any;
+    let $resultPromise = $Call.ByID(1089891833) as any;
     return $resultPromise;
 }

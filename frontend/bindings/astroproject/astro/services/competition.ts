@@ -15,61 +15,61 @@ import {Call as $Call, Create as $Create} from "@wailsio/runtime";
 import * as $models from "./models.js";
 
 export function AddPlayer(player: $models.Player | null): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(3220417277, player) as any;
+    let $resultPromise = $Call.ByID(3586200687, player) as any;
     return $resultPromise;
 }
 
 export function AddPlayerToStage(player: $models.Player, stage: $models.Stage): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(2532203882, player, stage) as any;
+    let $resultPromise = $Call.ByID(2450340804, player, stage) as any;
     return $resultPromise;
 }
 
 export function AddStage(stage: $models.Stage): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(2261622806, stage) as any;
+    let $resultPromise = $Call.ByID(3583015360, stage) as any;
     return $resultPromise;
 }
 
 export function FinishCompetition(): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(826570137) as any;
+    let $resultPromise = $Call.ByID(4255361611) as any;
     return $resultPromise;
 }
 
 export function GetStage(stageID: number): Promise<$models.Stage | null> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(2570706223, stageID) as any;
+    let $resultPromise = $Call.ByID(4149022853, stageID) as any;
     return $resultPromise;
 }
 
 export function InitCompetition(): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(582268878) as any;
+    let $resultPromise = $Call.ByID(1056350112) as any;
     return $resultPromise;
 }
 
 export function RemovePlayer(player: $models.Player | null): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(1491269932, player) as any;
+    let $resultPromise = $Call.ByID(4091036142, player) as any;
     return $resultPromise;
 }
 
 export function RemovePlayerFromStage(player: $models.Player, stage: $models.Stage): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(362483458, player, stage) as any;
+    let $resultPromise = $Call.ByID(286268068, player, stage) as any;
     return $resultPromise;
 }
 
 export function RemoveStage(stage: $models.Stage): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(1871882137, stage) as any;
+    let $resultPromise = $Call.ByID(3318302043, stage) as any;
     return $resultPromise;
 }
 
 export function StartCompetition(): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(3322759170) as any;
+    let $resultPromise = $Call.ByID(40313652) as any;
     return $resultPromise;
 }
 
 export function String(): Promise<string> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(2560236652) as any;
+    let $resultPromise = $Call.ByID(1301948422) as any;
     return $resultPromise;
 }
 
 export function UpdatePlayer(player: $models.Player | null): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(132875429, player) as any;
+    let $resultPromise = $Call.ByID(3178816091, player) as any;
     return $resultPromise;
 }

@@ -2,8 +2,8 @@
     import { onMount } from "svelte";
     import NavBar from "./common/NavBar.svelte";
     import Registrations from "./components/Registrations/Registrations.svelte";
-    import * as Session from "../bindings/changeme/astro/services/session";
-    import { Competition } from "../bindings/changeme/astro/services/models";
+    import * as Session from "../bindings/astroproject/astro/services/session";
+    import { Competition } from "../bindings/astroproject/astro/services/models";
     import { Competitions } from "./store";
     import StageManager from "./StageManager.svelte";
 

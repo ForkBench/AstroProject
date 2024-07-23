@@ -6,10 +6,10 @@
     TODO: Try if headers can be components
     */
     import { onMount } from "svelte";
-    import * as Models from "../../../bindings/changeme/astro/services/models";
-    import * as Session from "../../../bindings/changeme/astro/services/session";
+    import * as Models from "../../../bindings/astroproject/astro/services/models";
+    import * as Session from "../../../bindings/astroproject/astro/services/session";
     import { SelectedCompetition, CurrentStage } from "../../store";
-    import { GenerateRandomPlayer } from "../../../bindings/changeme/astro/services/player";
+    import { GenerateRandomPlayer } from "../../../bindings/astroproject/astro/services/player";
     import swal from "sweetalert";
     import { getNationFlag, getNationFlatAlt } from "../../Util";
 

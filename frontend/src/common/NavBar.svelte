@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { Competition } from "../../bindings/changeme/astro/services/models";
+    import { Competition } from "../../bindings/astroproject/astro/services/models";
     import { randomColor, rightBrighness } from "../Util";
     import {
         GetCompetitions,
         AddCompetition,
         RemoveCompetition,
-    } from "../../bindings/changeme/astro/services/session";
+    } from "../../bindings/astroproject/astro/services/session";
     import { onMount } from "svelte";
     import { SelectedCompetition, Competitions } from "../store";
 
