@@ -10,13 +10,9 @@ type CompetitionManager struct {
 	UserSession *Session
 }
 
-func (cm *CompetitionManager) AddPlayerToCompetition(competitionID uint8, player *structs.Player) bool {
+func (cm *CompetitionManager) AddPlayerToCompetition(competitionID uint8, player structs.Player) bool {
 	competition := cm.UserSession.GetCompetition(competitionID)
 	if competition == nil {
-		return false
-	}
-
-	if player == nil {
 		return false
 	}
 
@@ -36,7 +32,7 @@ func (cm *CompetitionManager) AddPlayerToCompetition(competitionID uint8, player
 	return competition.AddPlayer(player)
 }
 
-func (cm *CompetitionManager) RemovePlayerFromCompetition(competitionID uint8, player *structs.Player) bool {
+func (cm *CompetitionManager) RemovePlayerFromCompetition(competitionID uint8, player structs.Player) bool {
 	competition := cm.UserSession.GetCompetition(competitionID)
 	if competition == nil {
 		return false
@@ -58,7 +54,7 @@ func (cm *CompetitionManager) GetAllPlayersFromCompetition(competitionID uint8) 
 	return players
 }
 
-func (cm *CompetitionManager) UpdateCompetitionPlayer(competitionID uint8, player *structs.Player) bool {
+func (cm *CompetitionManager) UpdateCompetitionPlayer(competitionID uint8, player structs.Player) bool {
 	competition := cm.UserSession.GetCompetition(competitionID)
 	if competition == nil {
 		return false

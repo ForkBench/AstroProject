@@ -73,17 +73,17 @@ func (c *Competition) FinishCompetition() bool {
 	return true
 }
 
-func (c *Competition) AddPlayer(player *Player) bool {
+func (c *Competition) AddPlayer(player Player) bool {
 	if c.CompetitionState != REGISTERING {
 		return false
 	}
 
-	c.CompetitionPlayers[player.PlayerID] = player
+	c.CompetitionPlayers[player.PlayerID] = &player
 
 	return true
 }
 
-func (c *Competition) RemovePlayer(player *Player) bool {
+func (c *Competition) RemovePlayer(player Player) bool {
 	if c.CompetitionState != REGISTERING {
 		return false
 	}
@@ -97,21 +97,13 @@ func (c *Competition) RemovePlayer(player *Player) bool {
 	return true
 }
 
-func (c *Competition) AddPlayerToStage(player Player, stage Stage) bool {
-	return stage.AddPlayer(&player)
-}
-
-func (c *Competition) RemovePlayerFromStage(player Player, stage Stage) bool {
-	return stage.RemovePlayer(&player)
-}
-
-func (c *Competition) UpdatePlayer(player *Player) bool {
+func (c *Competition) UpdatePlayer(player Player) bool {
 	// Check if player is in competition
 	if _, ok := c.CompetitionPlayers[player.PlayerID]; !ok {
 		return false
 	}
 
-	c.CompetitionPlayers[player.PlayerID] = player
+	c.CompetitionPlayers[player.PlayerID] = &player
 
 	return true
 }

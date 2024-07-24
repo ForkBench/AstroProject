@@ -21,7 +21,7 @@ func (sm *StageManager) GetStageKind(competitionID uint8, stageID uint8) structs
 	return (*stage).GetKind()
 }
 
-func (sm *StageManager) AddPlayerToCompetitionStage(competitionID uint8, stageID uint8, player *structs.Player) bool {
+func (sm *StageManager) AddPlayerToCompetitionStage(competitionID uint8, stageID uint8, player structs.Player) bool {
 	competition := sm.UserSession.GetCompetition(competitionID)
 	if competition == nil {
 		return false
@@ -35,7 +35,7 @@ func (sm *StageManager) AddPlayerToCompetitionStage(competitionID uint8, stageID
 	return (*stage).AddPlayer(player)
 }
 
-func (sm *StageManager) RemovePlayerFromCompetitionStage(competitionID uint8, stageID uint8, player *structs.Player) bool {
+func (sm *StageManager) RemovePlayerFromCompetitionStage(competitionID uint8, stageID uint8, player structs.Player) bool {
 	competition := sm.UserSession.GetCompetition(competitionID)
 	if competition == nil {
 		return false
@@ -49,15 +49,15 @@ func (sm *StageManager) RemovePlayerFromCompetitionStage(competitionID uint8, st
 	return (*stage).RemovePlayer(player)
 }
 
-func (sm *StageManager) GetPlayersFromCompetitionStage(competitionID uint8, stageID uint8) []*structs.Player {
+func (sm *StageManager) GetPlayersFromCompetitionStage(competitionID uint8, stageID uint8) []structs.Player {
 	competition := sm.UserSession.GetCompetition(competitionID)
 	if competition == nil {
-		return []*structs.Player{}
+		return []structs.Player{}
 	}
 
 	stage := competition.GetStage(stageID)
 	if stage == nil {
-		return []*structs.Player{}
+		return []structs.Player{}
 	}
 
 	return (*stage).GetPlayers()

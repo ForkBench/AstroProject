@@ -15,7 +15,7 @@ import {Call as $Call, Create as $Create} from "@wailsio/runtime";
 // @ts-ignore: Unused imports
 import * as structs$0 from "../structs/models.js";
 
-export function AddPlayerToCompetition(competitionID: number, player: structs$0.Player | null): Promise<boolean> & { cancel(): void } {
+export function AddPlayerToCompetition(competitionID: number, player: structs$0.Player): Promise<boolean> & { cancel(): void } {
     let $resultPromise = $Call.ByID(310104718, competitionID, player) as any;
     return $resultPromise;
 }
@@ -34,12 +34,12 @@ export function IsPlayerIDFreeInCompetition(competitionID: number, playerID: num
     return $resultPromise;
 }
 
-export function RemovePlayerFromCompetition(competitionID: number, player: structs$0.Player | null): Promise<boolean> & { cancel(): void } {
+export function RemovePlayerFromCompetition(competitionID: number, player: structs$0.Player): Promise<boolean> & { cancel(): void } {
     let $resultPromise = $Call.ByID(2605805672, competitionID, player) as any;
     return $resultPromise;
 }
 
-export function UpdateCompetitionPlayer(competitionID: number, player: structs$0.Player | null): Promise<boolean> & { cancel(): void } {
+export function UpdateCompetitionPlayer(competitionID: number, player: structs$0.Player): Promise<boolean> & { cancel(): void } {
     let $resultPromise = $Call.ByID(2983979889, competitionID, player) as any;
     return $resultPromise;
 }

@@ -14,15 +14,15 @@ import {Call as $Call, Create as $Create} from "@wailsio/runtime";
 // @ts-ignore: Unused imports
 import * as structs$0 from "../structs/models.js";
 
-export function AddPlayerToCompetitionStage(competitionID: number, stageID: number, player: structs$0.Player | null): Promise<boolean> & { cancel(): void } {
+export function AddPlayerToCompetitionStage(competitionID: number, stageID: number, player: structs$0.Player): Promise<boolean> & { cancel(): void } {
     let $resultPromise = $Call.ByID(1573252655, competitionID, stageID, player) as any;
     return $resultPromise;
 }
 
-export function GetPlayersFromCompetitionStage(competitionID: number, stageID: number): Promise<(structs$0.Player | null)[]> & { cancel(): void } {
+export function GetPlayersFromCompetitionStage(competitionID: number, stageID: number): Promise<structs$0.Player[]> & { cancel(): void } {
     let $resultPromise = $Call.ByID(3960242336, competitionID, stageID) as any;
     let $typingPromise = $resultPromise.then(($result) => {
-        return $$createType2($result);
+        return $$createType1($result);
     }) as any;
     $typingPromise.cancel = $resultPromise.cancel.bind($resultPromise);
     return $typingPromise;
@@ -33,12 +33,11 @@ export function GetStageKind(competitionID: number, stageID: number): Promise<st
     return $resultPromise;
 }
 
-export function RemovePlayerFromCompetitionStage(competitionID: number, stageID: number, player: structs$0.Player | null): Promise<boolean> & { cancel(): void } {
+export function RemovePlayerFromCompetitionStage(competitionID: number, stageID: number, player: structs$0.Player): Promise<boolean> & { cancel(): void } {
     let $resultPromise = $Call.ByID(4225787831, competitionID, stageID, player) as any;
     return $resultPromise;
 }
 
 // Private type creation functions
 const $$createType0 = structs$0.Player.createFrom;
-const $$createType1 = $Create.Nullable($$createType0);
-const $$createType2 = $Create.Array($$createType1);
+const $$createType1 = $Create.Array($$createType0);
