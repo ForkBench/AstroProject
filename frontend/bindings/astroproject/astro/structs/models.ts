@@ -183,6 +183,8 @@ export class Nation {
 
 /**
  * Player : Person details
+ * 
+ * PlayerID is 16 bits, 4 are for the competitionID and 12 are for the playerID (4095 players max)
  */
 export class Player {
     /**

@@ -14,8 +14,13 @@ import {Call as $Call, Create as $Create} from "@wailsio/runtime";
 // @ts-ignore: Unused imports
 import * as structs$0 from "../structs/models.js";
 
-export function GenerateRandomPlayer(): Promise<structs$0.Player | null> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(1144155471) as any;
+export function GenerateRandomID(competitionID: number): Promise<number> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(3703518971, competitionID) as any;
+    return $resultPromise;
+}
+
+export function GenerateRandomPlayer(competitionID: number): Promise<structs$0.Player | null> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(1144155471, competitionID) as any;
     let $typingPromise = $resultPromise.then(($result) => {
         return $$createType1($result);
     }) as any;

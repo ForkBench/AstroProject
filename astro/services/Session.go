@@ -3,6 +3,7 @@ package services
 import "astroproject/astro/structs"
 
 const MinStageSize = 3
+const MaxCompetitions = 16 // 4 bits
 
 // Session : Session details
 type Session struct {
@@ -11,6 +12,11 @@ type Session struct {
 }
 
 func (s *Session) AddCompetition(name string, category string, weapon string) {
+
+	if s.CompetitionNumber >= MaxCompetitions {
+		return
+	}
+
 	competition := structs.CreateCompetition(
 		s.CompetitionNumber,
 		name,
@@ -40,6 +46,11 @@ func (s *Session) GetCompetitions() []structs.Competition {
 }
 
 func (s *Session) GetCompetition(competitionID uint8) *structs.Competition {
+
+	if competitionID >= s.CompetitionNumber {
+		return nil
+	}
+
 	for _, competition := range s.Competitions {
 		if competition.CompetitionID == competitionID {
 			return competition

@@ -29,6 +29,11 @@ export function GetAllPlayersFromCompetition(competitionID: number): Promise<(st
     return $typingPromise;
 }
 
+export function IsPlayerIDFreeInCompetition(competitionID: number, playerID: number): Promise<boolean> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(2687649668, competitionID, playerID) as any;
+    return $resultPromise;
+}
+
 export function RemovePlayerFromCompetition(competitionID: number, player: structs$0.Player | null): Promise<boolean> & { cancel(): void } {
     let $resultPromise = $Call.ByID(2605805672, competitionID, player) as any;
     return $resultPromise;

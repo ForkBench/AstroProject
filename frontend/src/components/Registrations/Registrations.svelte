@@ -9,7 +9,10 @@
     import * as Models from "../../../bindings/astroproject/astro/structs/models";
     import { GetCompetition } from "../../../bindings/astroproject/astro/services/session";
     import { SelectedCompetition, CurrentStage } from "../../store";
-    import { GenerateRandomPlayer } from "../../../bindings/astroproject/astro/services/personmanager";
+    import {
+        GenerateRandomID,
+        GenerateRandomPlayer,
+    } from "../../../bindings/astroproject/astro/services/personmanager";
     import {
         GetPlayersFromCompetitionStage,
         AddPlayerToCompetitionStage,
@@ -17,6 +20,7 @@
     import {
         UpdateCompetitionPlayer,
         AddPlayerToCompetition,
+        IsPlayerIDFreeInCompetition,
     } from "../../../bindings/astroproject/astro/services/competitionmanager";
     import swal from "sweetalert";
     import { getNationFlag, getNationFlatAlt } from "../../Util";
@@ -362,16 +366,34 @@
                     <td colspan="4">
                         <button
                             on:click={async () => {
-                                // Generate a random player
-                                var player = await GenerateRandomPlayer();
-                                if (player != null) {
+                                if (competition != undefined) {
+                                    // Generate a random player
+                                    var player = await GenerateRandomPlayer(
+                                        competition.CompetitionID
+                                    );
+
+                                    if (player === null) {
+                                        return;
+                                    }
+
                                     // Set the initial rank of the player
                                     player.PlayerInitialRank =
                                         players.length + 1;
-                                }
 
-                                // Add the player to the competition
-                                if (competition != undefined) {
+                                    while (
+                                        !IsPlayerIDFreeInCompetition(
+                                            competition.CompetitionID,
+                                            player.PlayerID
+                                        )
+                                    ) {
+                                        player.PlayerID =
+                                            await GenerateRandomID(
+                                                competition.CompetitionID
+                                            );
+                                    }
+
+                                    // Add the player to the competition
+
                                     await AddPlayerToCompetitionStage(
                                         competition.CompetitionID,
                                         stage?.SeedingStageID,

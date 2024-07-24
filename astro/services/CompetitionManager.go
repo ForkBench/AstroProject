@@ -68,3 +68,18 @@ func (cm *CompetitionManager) UpdateCompetitionPlayer(competitionID uint8, playe
 
 	return competition.UpdatePlayer(player)
 }
+
+func (cm *CompetitionManager) IsPlayerIDFreeInCompetition(competitionID uint8, playerID uint16) bool {
+
+	if (playerID & 0xF000) != (uint16(competitionID) << 12) {
+		return false
+	}
+
+	competition := cm.UserSession.GetCompetition(competitionID)
+	if competition == nil {
+		return false
+	}
+
+	_, ok := competition.CompetitionPlayers[playerID]
+	return !ok
+}

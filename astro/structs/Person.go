@@ -1,6 +1,9 @@
 package structs
 
 // Player : Person details
+/*
+PlayerID is 16 bits, 4 are for the competitionID and 12 are for the playerID (4095 players max)
+*/
 type Player struct {
 	PlayerID          uint16 // More than 255 players
 	PlayerFirstname   string
