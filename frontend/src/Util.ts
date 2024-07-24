@@ -1,4 +1,4 @@
-import type { Nation } from "../bindings/changeme/astro/services/models";
+import type { Nation } from "../bindings/astroproject/astro/structs/models";
 
 export function randomColor(brightness: number): string {
   function randomChannel(brightness: number): string {

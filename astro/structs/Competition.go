@@ -1,4 +1,4 @@
-package services
+package structs
 
 // Competition : Competition details
 type Competition struct {

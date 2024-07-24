@@ -1,4 +1,4 @@
-package services
+package structs
 
 // Category : Age category
 type Category uint8

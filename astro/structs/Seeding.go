@@ -1,4 +1,4 @@
-package services
+package structs
 
 // Seeding : Seeding details
 type Seeding struct {

@@ -244,53 +244,6 @@ export class Player {
     }
 }
 
-/**
- * Referee : Person details
- */
-export class Referee {
-    /**
-     * More than 255 referees
-     */
-    "RefereeID": number;
-    "RefereeFirstname": string;
-    "RefereeLastname": string;
-    "RefereeNationID": number;
-    "RefereeRegionID": number;
-    "RefereeClubID": number;
-
-    /** Creates a new Referee instance. */
-    constructor($$source: Partial<Referee> = {}) {
-        if (!("RefereeID" in $$source)) {
-            this["RefereeID"] = 0;
-        }
-        if (!("RefereeFirstname" in $$source)) {
-            this["RefereeFirstname"] = "";
-        }
-        if (!("RefereeLastname" in $$source)) {
-            this["RefereeLastname"] = "";
-        }
-        if (!("RefereeNationID" in $$source)) {
-            this["RefereeNationID"] = 0;
-        }
-        if (!("RefereeRegionID" in $$source)) {
-            this["RefereeRegionID"] = 0;
-        }
-        if (!("RefereeClubID" in $$source)) {
-            this["RefereeClubID"] = 0;
-        }
-
-        Object.assign(this, $$source);
-    }
-
-    /**
-     * Creates a new Referee instance from a string or object.
-     */
-    static createFrom($$source: any = {}): Referee {
-        let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
-        return new Referee($$parsedSource as Partial<Referee>);
-    }
-}
-
 export class Region {
     "region_id": number;
     "region_name": string;

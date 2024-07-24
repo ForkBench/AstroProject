@@ -6,10 +6,18 @@
     TODO: Try if headers can be components
     */
     import { onMount } from "svelte";
-    import * as Models from "../../../bindings/astroproject/astro/services/models";
-    import * as Session from "../../../bindings/astroproject/astro/services/session";
+    import * as Models from "../../../bindings/astroproject/astro/structs/models";
+    import { GetCompetition } from "../../../bindings/astroproject/astro/services/session";
     import { SelectedCompetition, CurrentStage } from "../../store";
-    import { GenerateRandomPlayer } from "../../../bindings/astroproject/astro/services/player";
+    import { GenerateRandomPlayer } from "../../../bindings/astroproject/astro/services/personmanager";
+    import {
+        GetPlayersFromCompetitionStage,
+        AddPlayerToCompetitionStage,
+    } from "../../../bindings/astroproject/astro/services/stagemanager";
+    import {
+        UpdateCompetitionPlayer,
+        AddPlayerToCompetition,
+    } from "../../../bindings/astroproject/astro/services/competitionmanager";
     import swal from "sweetalert";
     import { getNationFlag, getNationFlatAlt } from "../../Util";
 
@@ -38,13 +46,11 @@
             return;
         }
 
-        await Session.GetCompetition(competition.CompetitionID).then(
-            (result) => {
-                if (result !== null) {
-                    SelectedCompetition.set(result);
-                }
+        await GetCompetition(competition.CompetitionID).then((result) => {
+            if (result !== null) {
+                SelectedCompetition.set(result);
             }
-        );
+        });
     }
 
     // Load the players from the selected competition
@@ -53,7 +59,7 @@
             return;
         }
 
-        Session.GetPlayersFromCompetitionStage(
+        GetPlayersFromCompetitionStage(
             competition.CompetitionID,
             stage?.StageID
         ).then((result) => {
@@ -215,7 +221,7 @@
                                         player.PlayerPresent =
                                             !player.PlayerPresent;
                                         if (competition != undefined)
-                                            await Session.UpdateCompetitionPlayer(
+                                            await UpdateCompetitionPlayer(
                                                 competition.CompetitionID,
                                                 player
                                             ).then(() => {
@@ -259,7 +265,7 @@
 
                                         // Update the player in the competition
                                         if (competition != undefined)
-                                            await Session.UpdateCompetitionPlayer(
+                                            await UpdateCompetitionPlayer(
                                                 competition.CompetitionID,
                                                 player
                                             ).then(() => {
@@ -290,7 +296,7 @@
                                     if (newLastname) {
                                         player.PlayerLastname = newLastname;
                                         if (competition != undefined)
-                                            await Session.UpdateCompetitionPlayer(
+                                            await UpdateCompetitionPlayer(
                                                 competition.CompetitionID,
                                                 player
                                             ).then(() => {
@@ -322,7 +328,7 @@
                                     if (newFirstname) {
                                         player.PlayerFirstname = newFirstname;
                                         if (competition != undefined)
-                                            await Session.UpdateCompetitionPlayer(
+                                            await UpdateCompetitionPlayer(
                                                 competition.CompetitionID,
                                                 player
                                             ).then(() => {
@@ -365,14 +371,20 @@
                                 }
 
                                 // Add the player to the competition
-                                if (competition != undefined)
-                                    await Session.AddPlayerToCompetitionStage(
+                                if (competition != undefined) {
+                                    await AddPlayerToCompetitionStage(
                                         competition.CompetitionID,
                                         stage?.SeedingStageID,
                                         player
-                                    ).then(() => {
-                                        loadStageAndCompetition();
-                                    });
+                                    );
+
+                                    await AddPlayerToCompetition(
+                                        competition.CompetitionID,
+                                        player
+                                    );
+
+                                    loadStageAndCompetition();
+                                }
                             }}
                         >
                             Add Player

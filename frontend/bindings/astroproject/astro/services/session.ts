@@ -12,62 +12,29 @@ import {Call as $Call, Create as $Create} from "@wailsio/runtime";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: Unused imports
-import * as $models from "./models.js";
+import * as structs$0 from "../structs/models.js";
 
 export function AddCompetition(name: string, category: string, weapon: string): Promise<void> & { cancel(): void } {
     let $resultPromise = $Call.ByID(464915944, name, category, weapon) as any;
     return $resultPromise;
 }
 
-export function AddPlayerToCompetition(competitionID: number, player: $models.Player | null): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(2133180332, competitionID, player) as any;
-    return $resultPromise;
-}
-
-export function AddPlayerToCompetitionStage(competitionID: number, stageID: number, player: $models.Player | null): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(3317503146, competitionID, stageID, player) as any;
-    return $resultPromise;
-}
-
-export function GetAllPlayersFromCompetition(competitionID: number): Promise<($models.Player | null)[]> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(1886834424, competitionID) as any;
-    let $typingPromise = $resultPromise.then(($result) => {
-        return $$createType2($result);
-    }) as any;
-    $typingPromise.cancel = $resultPromise.cancel.bind($resultPromise);
-    return $typingPromise;
-}
-
-export function GetCompetition(competitionID: number): Promise<$models.Competition | null> & { cancel(): void } {
+export function GetCompetition(competitionID: number): Promise<structs$0.Competition | null> & { cancel(): void } {
     let $resultPromise = $Call.ByID(2762093245, competitionID) as any;
     let $typingPromise = $resultPromise.then(($result) => {
-        return $$createType4($result);
+        return $$createType1($result);
     }) as any;
     $typingPromise.cancel = $resultPromise.cancel.bind($resultPromise);
     return $typingPromise;
 }
 
-export function GetCompetitions(): Promise<$models.Competition[]> & { cancel(): void } {
+export function GetCompetitions(): Promise<structs$0.Competition[]> & { cancel(): void } {
     let $resultPromise = $Call.ByID(4183161418) as any;
-    let $typingPromise = $resultPromise.then(($result) => {
-        return $$createType5($result);
-    }) as any;
-    $typingPromise.cancel = $resultPromise.cancel.bind($resultPromise);
-    return $typingPromise;
-}
-
-export function GetPlayersFromCompetitionStage(competitionID: number, stageID: number): Promise<($models.Player | null)[]> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(531732819, competitionID, stageID) as any;
     let $typingPromise = $resultPromise.then(($result) => {
         return $$createType2($result);
     }) as any;
     $typingPromise.cancel = $resultPromise.cancel.bind($resultPromise);
     return $typingPromise;
-}
-
-export function GetStageKind(competitionID: number, stageID: number): Promise<$models.StageKind> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(4220342510, competitionID, stageID) as any;
-    return $resultPromise;
 }
 
 export function RemoveCompetition(competitionID: number): Promise<void> & { cancel(): void } {
@@ -75,25 +42,7 @@ export function RemoveCompetition(competitionID: number): Promise<void> & { canc
     return $resultPromise;
 }
 
-export function RemovePlayerFromCompetition(competitionID: number, player: $models.Player | null): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(3511927782, competitionID, player) as any;
-    return $resultPromise;
-}
-
-export function RemovePlayerFromCompetitionStage(competitionID: number, stageID: number, player: $models.Player | null): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(2241890528, competitionID, stageID, player) as any;
-    return $resultPromise;
-}
-
-export function UpdateCompetitionPlayer(competitionID: number, player: $models.Player | null): Promise<boolean> & { cancel(): void } {
-    let $resultPromise = $Call.ByID(10714359, competitionID, player) as any;
-    return $resultPromise;
-}
-
 // Private type creation functions
-const $$createType0 = $models.Player.createFrom;
+const $$createType0 = structs$0.Competition.createFrom;
 const $$createType1 = $Create.Nullable($$createType0);
-const $$createType2 = $Create.Array($$createType1);
-const $$createType3 = $models.Competition.createFrom;
-const $$createType4 = $Create.Nullable($$createType3);
-const $$createType5 = $Create.Array($$createType3);
+const $$createType2 = $Create.Array($$createType0);

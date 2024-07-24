@@ -1,12 +1,11 @@
 package main
 
 import (
+	"astroproject/astro/services"
 	"embed"
 	"log"
 
 	"github.com/wailsapp/wails/v3/pkg/application"
-
-	"astroproject/astro/services"
 )
 
 var assets embed.FS
@@ -14,16 +13,18 @@ var assets embed.FS
 func main() {
 
 	session := services.Session{}
+	competitionManager := services.CompetitionManager{UserSession: &session}
+	stageManager := services.StageManager{UserSession: &session}
+	personManager := services.PersonManager{UserSession: &session}
 
 	app := application.New(application.Options{
 		Name:        "AstroProject",
 		Description: "A demo of using raw HTML & CSS",
 		Services: []application.Service{
 			application.NewService(&session),
-			application.NewService(&services.Competition{}),
-			application.NewService(&services.Club{}),
-			application.NewService(&services.Pool{}),
-			application.NewService(&services.Player{}),
+			application.NewService(&competitionManager),
+			application.NewService(&stageManager),
+			application.NewService(&personManager),
 		},
 		Assets: application.AssetOptions{
 			Handler: application.AssetFileServerFS(assets),

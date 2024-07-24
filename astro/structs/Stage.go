@@ -1,4 +1,4 @@
-package services
+package structs
 
 // Stage : Stage details
 type Stage interface {

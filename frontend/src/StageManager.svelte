@@ -1,9 +1,9 @@
 <script lang="ts">
     import Registrations from "./components/Registrations/Registrations.svelte";
-    import * as Models from "./../bindings/astroproject/astro/services/models";
+    import * as Models from "./../bindings/astroproject/astro/structs/models";
     import { SelectedCompetition, CurrentStage } from "./store";
     import { onMount } from "svelte";
-    import { GetStageKind } from "./../bindings/astroproject/astro/services/session";
+    import { GetStageKind } from "./../bindings/astroproject/astro/services/stagemanager";
 
     let currentStage: Models.Stage;
     let StageType: Models.StageKind;

@@ -3,7 +3,7 @@
     import NavBar from "./common/NavBar.svelte";
     import Registrations from "./components/Registrations/Registrations.svelte";
     import * as Session from "../bindings/astroproject/astro/services/session";
-    import { Competition } from "../bindings/astroproject/astro/services/models";
+    import { Competition } from "../bindings/astroproject/astro/structs/models";
     import { Competitions } from "./store";
     import StageManager from "./StageManager.svelte";
 

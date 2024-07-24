@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Competition } from "../../bindings/astroproject/astro/services/models";
+    import { Competition } from "../../bindings/astroproject/astro/structs/models";
     import { randomColor, rightBrighness } from "../Util";
     import {
         GetCompetitions,

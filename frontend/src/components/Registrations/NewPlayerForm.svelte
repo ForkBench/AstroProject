@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import * as Models from "../../../bindings/astroproject/astro/services/models";
-    import * as Session from "../../../bindings/astroproject/astro/services/session";
+    import * as Models from "../../../bindings/astroproject/astro/structs/models";
+    import { AddPlayerToCompetition } from "../../../bindings/astroproject/astro/services/competitionmanager";
     import swal from "sweetalert";
 
     export let competition: Models.Competition;
@@ -78,7 +78,7 @@
             });
 
             // Send the player to the backend
-            Session.AddPlayerToCompetition(competition.CompetitionID, player);
+            AddPlayerToCompetition(competition.CompetitionID, player);
 
             // Clear the form
             playerFirstname = "";

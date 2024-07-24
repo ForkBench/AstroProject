@@ -1,4 +1,4 @@
-package services
+package structs
 
 type Nation struct {
 	NationID   uint16 `json:"nation_id"`
