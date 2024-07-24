@@ -103,7 +103,13 @@ func (c *Competition) UpdatePlayer(player Player) bool {
 		return false
 	}
 
-	c.CompetitionPlayers[player.PlayerID] = &player
+	// TODO: Refactor
+	c.CompetitionPlayers[player.PlayerID].PlayerFirstname = player.PlayerFirstname
+	c.CompetitionPlayers[player.PlayerID].PlayerLastname = player.PlayerLastname
+	c.CompetitionPlayers[player.PlayerID].PlayerNation = player.PlayerNation
+	c.CompetitionPlayers[player.PlayerID].PlayerRegion = player.PlayerRegion
+	c.CompetitionPlayers[player.PlayerID].PlayerClub = player.PlayerClub
+	c.CompetitionPlayers[player.PlayerID].PlayerInitialRank = player.PlayerInitialRank
 
 	return true
 }

@@ -17,17 +17,19 @@ func (cm *CompetitionManager) AddPlayerToCompetition(competitionID uint8, player
 	}
 
 	// If player id is UINT16MAX, set it
-	var id uint16 = 0
-	for {
-		// Check if id is already taken
-		_, ok := competition.CompetitionPlayers[id]
-		if !ok {
-			break
+	if player.PlayerID == 65535 {
+		var id uint16 = 0
+		for {
+			// Check if id is already taken
+			_, ok := competition.CompetitionPlayers[id]
+			if !ok {
+				break
+			}
+			id++
 		}
-		id++
-	}
 
-	player.PlayerID = id
+		player.PlayerID = id
+	}
 
 	return competition.AddPlayer(player)
 }

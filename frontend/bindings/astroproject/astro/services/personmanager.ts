@@ -19,10 +19,10 @@ export function GenerateRandomID(competitionID: number): Promise<number> & { can
     return $resultPromise;
 }
 
-export function GenerateRandomPlayer(competitionID: number): Promise<structs$0.Player | null> & { cancel(): void } {
+export function GenerateRandomPlayer(competitionID: number): Promise<structs$0.Player> & { cancel(): void } {
     let $resultPromise = $Call.ByID(1144155471, competitionID) as any;
     let $typingPromise = $resultPromise.then(($result) => {
-        return $$createType1($result);
+        return $$createType0($result);
     }) as any;
     $typingPromise.cancel = $resultPromise.cancel.bind($resultPromise);
     return $typingPromise;
@@ -30,4 +30,3 @@ export function GenerateRandomPlayer(competitionID: number): Promise<structs$0.P
 
 // Private type creation functions
 const $$createType0 = structs$0.Player.createFrom;
-const $$createType1 = $Create.Nullable($$createType0);

@@ -18,8 +18,6 @@ export function getNationFlag(nation: Nation | null): string {
     return "https://flagsapi.com/FR/flat/64.png";
   }
 
-  console.log(`"${nation.nation_code}"`);
-
   return `https://flagsapi.com/${nation.nation_code}/flat/64.png`
 }
 

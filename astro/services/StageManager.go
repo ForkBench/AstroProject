@@ -62,3 +62,17 @@ func (sm *StageManager) GetPlayersFromCompetitionStage(competitionID uint8, stag
 
 	return (*stage).GetPlayers()
 }
+
+func (sm *StageManager) UpdateStagePlayer(competitionID uint8, stageID uint8, player structs.Player) bool {
+	competition := sm.UserSession.GetCompetition(competitionID)
+	if competition == nil {
+		return false
+	}
+
+	stage := competition.GetStage(stageID)
+	if stage == nil {
+		return false
+	}
+
+	return (*stage).UpdatePlayer(player)
+}

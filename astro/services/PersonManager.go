@@ -23,9 +23,9 @@ func (pm *PersonManager) GenerateRandomID(competitionID uint8) uint16 {
 	return playerID
 }
 
-func (pm *PersonManager) GenerateRandomPlayer(competitionID uint8) *structs.Player {
+func (pm *PersonManager) GenerateRandomPlayer(competitionID uint8) structs.Player {
 
-	return &structs.Player{
+	return structs.Player{
 		PlayerID:          pm.GenerateRandomID(competitionID),
 		PlayerFirstname:   faker.FirstName(),
 		PlayerLastname:    faker.LastName(),

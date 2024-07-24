@@ -9,6 +9,7 @@ type Stage interface {
 	GetState() State
 	GetKind() StageKind // TODO: Implement in pools
 	GetPlayers() []Player
+	UpdatePlayer(player Player) bool
 	Register() bool
 	Start() bool
 	End() bool

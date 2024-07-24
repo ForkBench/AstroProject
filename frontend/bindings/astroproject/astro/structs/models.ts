@@ -193,9 +193,9 @@ export class Player {
     "PlayerID": number;
     "PlayerFirstname": string;
     "PlayerLastname": string;
-    "PlayerNation": Nation | null;
-    "PlayerRegion": Region | null;
-    "PlayerClub": Club | null;
+    "PlayerNation": Nation;
+    "PlayerRegion": Region;
+    "PlayerClub": Club;
     "PlayerInitialRank": number;
 
     /** Creates a new Player instance. */
@@ -210,13 +210,13 @@ export class Player {
             this["PlayerLastname"] = "";
         }
         if (!("PlayerNation" in $$source)) {
-            this["PlayerNation"] = null;
+            this["PlayerNation"] = (new Nation());
         }
         if (!("PlayerRegion" in $$source)) {
-            this["PlayerRegion"] = null;
+            this["PlayerRegion"] = (new Region());
         }
         if (!("PlayerClub" in $$source)) {
-            this["PlayerClub"] = null;
+            this["PlayerClub"] = (new Club());
         }
         if (!("PlayerInitialRank" in $$source)) {
             this["PlayerInitialRank"] = 0;
@@ -229,9 +229,9 @@ export class Player {
      * Creates a new Player instance from a string or object.
      */
     static createFrom($$source: any = {}): Player {
-        const $$createField3_0 = $$createType5;
-        const $$createField4_0 = $$createType7;
-        const $$createField5_0 = $$createType9;
+        const $$createField3_0 = $$createType4;
+        const $$createField4_0 = $$createType5;
+        const $$createField5_0 = $$createType6;
         let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
         if ("PlayerNation" in $$parsedSource) {
             $$parsedSource["PlayerNation"] = $$createField3_0($$parsedSource["PlayerNation"]);
@@ -382,8 +382,5 @@ const $$createType1 = Player.createFrom;
 const $$createType2 = $Create.Nullable($$createType1);
 const $$createType3 = $Create.Map($Create.Any, $$createType2);
 const $$createType4 = Nation.createFrom;
-const $$createType5 = $Create.Nullable($$createType4);
-const $$createType6 = Region.createFrom;
-const $$createType7 = $Create.Nullable($$createType6);
-const $$createType8 = Club.createFrom;
-const $$createType9 = $Create.Nullable($$createType8);
+const $$createType5 = Region.createFrom;
+const $$createType6 = Club.createFrom;

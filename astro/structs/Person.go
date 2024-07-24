@@ -8,9 +8,9 @@ type Player struct {
 	PlayerID          uint16 // More than 255 players
 	PlayerFirstname   string
 	PlayerLastname    string
-	PlayerNation      *Nation
-	PlayerRegion      *Region
-	PlayerClub        *Club
+	PlayerNation      Nation
+	PlayerRegion      Region
+	PlayerClub        Club
 	PlayerInitialRank uint16
 }
 

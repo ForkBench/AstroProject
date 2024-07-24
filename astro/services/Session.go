@@ -47,10 +47,6 @@ func (s *Session) GetCompetitions() []structs.Competition {
 
 func (s *Session) GetCompetition(competitionID uint8) *structs.Competition {
 
-	if competitionID >= s.CompetitionNumber {
-		return nil
-	}
-
 	for _, competition := range s.Competitions {
 		if competition.CompetitionID == competitionID {
 			return competition

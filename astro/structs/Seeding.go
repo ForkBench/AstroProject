@@ -82,6 +82,27 @@ func (s *SeedingStage) RemovePlayer(player Player) bool {
 }
 
 // From interface
+func (s *SeedingStage) UpdatePlayer(player Player) bool {
+	if s.SeedingState != REGISTERING {
+		return false
+	}
+
+	if s.SeedingSeedings[player.PlayerID] == nil {
+		return false
+	}
+
+	// TODO: Refactor
+	s.SeedingSeedings[player.PlayerID].SeedingPlayer.PlayerFirstname = player.PlayerFirstname
+	s.SeedingSeedings[player.PlayerID].SeedingPlayer.PlayerLastname = player.PlayerLastname
+	s.SeedingSeedings[player.PlayerID].SeedingPlayer.PlayerNation = player.PlayerNation
+	s.SeedingSeedings[player.PlayerID].SeedingPlayer.PlayerRegion = player.PlayerRegion
+	s.SeedingSeedings[player.PlayerID].SeedingPlayer.PlayerClub = player.PlayerClub
+	s.SeedingSeedings[player.PlayerID].SeedingPlayer.PlayerInitialRank = player.PlayerInitialRank
+
+	return true
+}
+
+// From interface
 func (s *SeedingStage) GetID() uint8 {
 	return s.SeedingStageID
 }

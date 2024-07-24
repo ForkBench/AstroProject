@@ -38,6 +38,11 @@ export function RemovePlayerFromCompetitionStage(competitionID: number, stageID:
     return $resultPromise;
 }
 
+export function UpdateStagePlayer(competitionID: number, stageID: number, player: structs$0.Player): Promise<boolean> & { cancel(): void } {
+    let $resultPromise = $Call.ByID(3159020335, competitionID, stageID, player) as any;
+    return $resultPromise;
+}
+
 // Private type creation functions
 const $$createType0 = structs$0.Player.createFrom;
 const $$createType1 = $Create.Array($$createType0);

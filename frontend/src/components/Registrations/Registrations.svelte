@@ -16,6 +16,7 @@
     import {
         GetPlayersFromCompetitionStage,
         AddPlayerToCompetitionStage,
+        UpdateStagePlayer,
     } from "../../../bindings/astroproject/astro/services/stagemanager";
     import {
         UpdateCompetitionPlayer,
@@ -26,10 +27,10 @@
     import { getNationFlag, getNationFlatAlt } from "../../Util";
 
     // Variables that will be used in the component
-    let players: (Models.Player | null)[] = [];
-    let filteredPlayers: (Models.Player | null)[] = [];
-    let competition: Models.Competition | undefined;
-    let stage: Models.Stage | undefined;
+    let players: Models.Player[] = [];
+    let filteredPlayers: Models.Player[] = [];
+    let competition: Models.Competition;
+    let stage: Models.Stage;
     let sortBy = { key: "", asc: true };
     let searchTerms = "";
 
@@ -65,7 +66,7 @@
 
         GetPlayersFromCompetitionStage(
             competition.CompetitionID,
-            stage?.StageID
+            stage.StageID
         ).then((result) => {
             players = result;
         });
@@ -80,11 +81,7 @@
     });
 
     // Function to get the value of a player by key
-    function getPlayerValueByKey(player: Models.Player | null, key: string) {
-        if (player === null) {
-            return "";
-        }
-
+    function getPlayerValueByKey(player: Models.Player, key: string) {
         switch (key) {
             case "PlayerInitialRank":
                 return player.PlayerInitialRank;
@@ -93,11 +90,11 @@
             case "PlayerLastname":
                 return player.PlayerLastname;
             case "PlayerClub":
-                return player.PlayerClub?.club_name;
+                return player.PlayerClub.club_name;
             case "PlayerRegion":
-                return player.PlayerRegion?.region_name;
+                return player.PlayerRegion.region_name;
             case "PlayerCountry":
-                return player.PlayerNation?.nation_name;
+                return player.PlayerNation.nation_name;
             default:
                 return "";
         }
@@ -107,9 +104,7 @@
     $: players = players.sort((a, b) => {
         let aValue = getPlayerValueByKey(a, sortBy.key);
         let bValue = getPlayerValueByKey(b, sortBy.key);
-        if (aValue === null || bValue === null) {
-            return 0;
-        }
+
         if (aValue === undefined || bValue === undefined) {
             return 0;
         }
@@ -125,10 +120,6 @@
 
     // Filter the players by search terms
     $: filteredPlayers = players.filter((player) => {
-        if (player === null) {
-            return [];
-        }
-
         return (
             player.PlayerFirstname.toLowerCase().includes(
                 searchTerms.toLowerCase()
@@ -136,11 +127,25 @@
             player.PlayerLastname.toLowerCase().includes(
                 searchTerms.toLowerCase()
             ) ||
-            player.PlayerClub?.club_name
+            player.PlayerClub.club_name
                 .toLowerCase()
                 .includes(searchTerms.toLowerCase())
         );
     });
+
+    async function updatePlayer(player: Models.Player) {
+        // Update the player in the competition
+        await UpdateCompetitionPlayer(competition.CompetitionID, player);
+
+        // Update the player in the stage
+        await UpdateStagePlayer(
+            competition.CompetitionID,
+            stage.SeedingStageID,
+            player
+        );
+
+        loadPlayers();
+    }
 </script>
 
 <div class="registration-container">
@@ -209,16 +214,15 @@
             </thead>
             <tbody>
                 {#each filteredPlayers as player}
-                    {#if player != null}
-                        <!-- Classes bellow help improving the UI -->
-                        <tr
-                            class:gold={player.PlayerInitialRank == 1}
-                            class:silver={player.PlayerInitialRank == 2}
-                            class:bronze={player.PlayerInitialRank == 3}
-                        >
-                            <td>
-                                <!-- TODO: input checkbox -->
-                                <!-- <input
+                    <!-- Classes bellow help improving the UI -->
+                    <tr
+                        class:gold={player.PlayerInitialRank == 1}
+                        class:silver={player.PlayerInitialRank == 2}
+                        class:bronze={player.PlayerInitialRank == 3}
+                    >
+                        <td>
+                            <!-- TODO: input checkbox -->
+                            <!-- <input
                                     type="checkbox"
                                     checked={player.PlayerPresent}
                                     on:change={async () => {
@@ -233,134 +237,107 @@
                                             });
                                     }}
                                 /> -->
-                            </td>
-                            <td
-                                class="el first"
-                                on:dblclick={async () => {
-                                    // Show a prompt to the user to change the rank
-                                    let newRank = await swal({
-                                        content: {
-                                            element: "input",
-                                            attributes: {
-                                                placeholder: "New rank",
-                                                type: "number",
-                                            },
+                        </td>
+                        <td
+                            class="el first"
+                            on:dblclick={async () => {
+                                // Show a prompt to the user to change the rank
+                                let newRank = await swal({
+                                    content: {
+                                        element: "input",
+                                        attributes: {
+                                            placeholder: "New rank",
+                                            type: "number",
                                         },
-                                        buttons: {
-                                            cancel: true,
-                                            confirm: true,
-                                        },
-                                    });
+                                    },
+                                    buttons: {
+                                        cancel: true,
+                                        confirm: true,
+                                    },
+                                });
 
-                                    // Check if the user confirmed the prompt
-                                    if (newRank) {
-                                        player.PlayerInitialRank =
-                                            parseInt(newRank);
+                                // Check if the user confirmed the prompt
+                                if (newRank) {
+                                    player.PlayerInitialRank =
+                                        parseInt(newRank);
 
-                                        // Check if the new rank is a number
-                                        if (isNaN(player.PlayerInitialRank)) {
-                                            await swal(
-                                                "Error",
-                                                "Rank must be a number",
-                                                "error"
-                                            );
-                                            return;
-                                        }
-
-                                        // Update the player in the competition
-                                        if (competition != undefined)
-                                            await UpdateCompetitionPlayer(
-                                                competition.CompetitionID,
-                                                player
-                                            ).then(() => {
-                                                loadPlayers();
-                                            });
-                                        // TODO: Backend wise, change it
+                                    // Update the player in the competition
+                                    if (competition != undefined) {
+                                        updatePlayer(player);
                                     }
-                                }}>{player.PlayerInitialRank}</td
-                            >
-                            <td
-                                class="el"
-                                on:dblclick={async () => {
-                                    // Show a prompt to the user to change the lastname
-                                    let newLastname = await swal({
-                                        content: {
-                                            element: "input",
-                                            attributes: {
-                                                placeholder: "New lastname",
-                                            },
+                                }
+                            }}>{player.PlayerInitialRank}</td
+                        >
+                        <td
+                            class="el"
+                            on:dblclick={async () => {
+                                // Show a prompt to the user to change the lastname
+                                let newLastname = await swal({
+                                    content: {
+                                        element: "input",
+                                        attributes: {
+                                            placeholder: "New lastname",
                                         },
-                                        buttons: {
-                                            cancel: true,
-                                            confirm: true,
-                                        },
-                                    });
+                                    },
+                                    buttons: {
+                                        cancel: true,
+                                        confirm: true,
+                                    },
+                                });
 
-                                    // Check if the user confirmed the prompt
-                                    if (newLastname) {
-                                        player.PlayerLastname = newLastname;
-                                        if (competition != undefined)
-                                            await UpdateCompetitionPlayer(
-                                                competition.CompetitionID,
-                                                player
-                                            ).then(() => {
-                                                loadPlayers();
-                                            });
-                                        // TODO: Backend wise, change it
+                                // Check if the user confirmed the prompt
+                                if (newLastname) {
+                                    player.PlayerLastname = newLastname;
+                                    if (competition != undefined) {
+                                        updatePlayer(player);
                                     }
-                                }}
-                                >{player.PlayerLastname.toLocaleUpperCase()}</td
-                            >
-                            <td
-                                class="el"
-                                on:dblclick={async () => {
-                                    // Show a prompt to the user to change the firstname
-                                    let newFirstname = await swal({
-                                        content: {
-                                            element: "input",
-                                            attributes: {
-                                                placeholder: "New firstname",
-                                            },
+                                }
+                            }}>{player.PlayerLastname.toLocaleUpperCase()}</td
+                        >
+                        <td
+                            class="el"
+                            on:dblclick={async () => {
+                                // Show a prompt to the user to change the firstname
+                                let newFirstname = await swal({
+                                    content: {
+                                        element: "input",
+                                        attributes: {
+                                            placeholder: "New firstname",
                                         },
-                                        buttons: {
-                                            cancel: true,
-                                            confirm: true,
-                                        },
-                                    });
+                                    },
+                                    buttons: {
+                                        cancel: true,
+                                        confirm: true,
+                                    },
+                                });
 
-                                    // Check if the user confirmed the prompt
-                                    if (newFirstname) {
-                                        player.PlayerFirstname = newFirstname;
-                                        if (competition != undefined)
-                                            await UpdateCompetitionPlayer(
-                                                competition.CompetitionID,
-                                                player
-                                            ).then(() => {
-                                                loadPlayers();
-                                            });
-                                        // TODO: Backend wise, change it
+                                // Check if the user confirmed the prompt
+                                if (newFirstname) {
+                                    player.PlayerFirstname = newFirstname;
+                                    if (competition != undefined) {
+                                        updatePlayer(player);
                                     }
-                                }}>{player.PlayerFirstname}</td
-                            >
-                            <td class="el"
-                                >{#if player.PlayerClub}{player.PlayerClub
-                                        .club_name}{:else}Sans Nom{/if}</td
-                            >
-                            <td class="el"
-                                >{#if player.PlayerRegion}{player.PlayerRegion
-                                        .region_name}{:else}Sans Nom{/if}</td
-                            >
-                            <td class="flag-container el last"
-                                ><img
-                                    src={getNationFlag(player.PlayerNation)}
-                                    alt="Player's flag : {getNationFlatAlt(
-                                        player.PlayerNation
-                                    )}"
-                                    class="flag"
-                                /></td
-                            >
-                        </tr>
-                    {/if}
+                                }
+                            }}>{player.PlayerFirstname}</td
+                        >
+                        <td class="el"
+                            >{#if player.PlayerClub}{player.PlayerClub
+                                    .club_name}{:else}Sans Nom{/if}</td
+                        >
+                        <td class="el"
+                            >{#if player.PlayerRegion}{player.PlayerRegion
+                                    .region_name}{:else}Sans Nom{/if}</td
+                        >
+                        <td class="flag-container el last"
+                            ><img
+                                src={getNationFlag(player.PlayerNation)}
+                                alt="Player's flag : {getNationFlatAlt(
+                                    player.PlayerNation
+                                )}"
+                                class="flag"
+                            /></td
+                        >
+                    </tr>
                 {/each}
                 <tr id="add-player-tr">
                     <td colspan="4">
@@ -371,10 +348,6 @@
                                     var player = await GenerateRandomPlayer(
                                         competition.CompetitionID
                                     );
-
-                                    if (player === null) {
-                                        return;
-                                    }
 
                                     // Set the initial rank of the player
                                     player.PlayerInitialRank =
@@ -392,11 +365,9 @@
                                             );
                                     }
 
-                                    // Add the player to the competition
-
                                     await AddPlayerToCompetitionStage(
                                         competition.CompetitionID,
-                                        stage?.SeedingStageID,
+                                        stage.SeedingStageID,
                                         player
                                     );
 
