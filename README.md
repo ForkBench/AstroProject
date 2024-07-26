@@ -77,7 +77,7 @@ Clone this repository to your desired folder:
 
 ```sh
   cd my-folder
-  git clone git@gitlab.isima.fr:rovandemer/astroproject.git
+  git clone git@github.com:ForkBench/AstroProject.git
 ```
 
 ### Build
